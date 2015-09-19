@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Menu">
+      <UniqueIdentifier>{28113fa8-c97f-4845-9723-2e8cee8250a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu\Input">
+      <UniqueIdentifier>{8cd44eb7-9438-4884-919c-2fb9eb2bbdea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu\Elements">
+      <UniqueIdentifier>{9a05756d-98aa-49e5-a367-e6cfb132d7a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu\Misc">
+      <UniqueIdentifier>{2b90de43-5ded-40da-8ca8-8a8468140475}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Menu\Rendering">
+      <UniqueIdentifier>{7b0ffb91-d60d-4d44-86f2-76461f5f5a14}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DaMenu.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="MouseEvents.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyboardMessage.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuElement.h">
+      <Filter>Header Files\Menu\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="EventDispatcher.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="IDGenerator.h">
+      <Filter>Header Files\Menu\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Header Files\Menu\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderInterface.h">
+      <Filter>Header Files\Menu\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Menu\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="DXTKRenderer.h">
+      <Filter>Header Files\Menu\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowElement.h">
+      <Filter>Header Files\Menu\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManageInterface.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="ElementManager.h">
+      <Filter>Header Files\Menu</Filter>
+    </ClInclude>
+    <ClInclude Include="WinAPIInputManager.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
