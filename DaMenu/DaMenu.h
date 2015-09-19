@@ -1,20 +1,20 @@
 #pragma once
-#include "Vector.h"
+#include "Menu/Misc/Vector.h"
 using Vector2f = Vector2<float>;
-#include "IDGenerator.h"
+#include "Menu/Misc/IDGenerator.h"
 
-#include "MouseEvents.h"
-#include "KeyboardMessage.h"
-#include "EventDispatcher.h"
-#include "InputManageInterface.h"
-#include "WinAPIInputManager.h"
+#include "Menu/Input/MouseEvents.h"
+#include "Menu/Input/KeyboardMessage.h"
+#include "Menu/Input/EventDispatcher.h"
+#include "Menu/Input/InputManageInterface.h"
+#include "Menu/Input/WinAPIInputManager.h"
 
-#include "RenderInterface.h"
-#include "DXTKRenderer.h"
+#include "Menu/Rendering/RenderInterface.h"
+#include "Menu/Rendering/DXTKRenderer.h"
 
 #include <string.h>
-#include "MenuElement.h"
-#include "ButtonElement.h"
-#include "WindowElement.h"
+#include "Menu/Elements/MenuElement.h"
+#include "Menu/Elements/ButtonElement.h"
+#include "Menu/Elements/WindowElement.h"
 
-#include "ElementManager.h"
+#include "Menu/ElementManager.h"

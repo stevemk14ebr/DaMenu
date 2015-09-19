@@ -163,21 +163,21 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ButtonElement.h" />
-    <ClInclude Include="Color.h" />
     <ClInclude Include="DaMenu.h" />
-    <ClInclude Include="WinAPIInputManager.h" />
-    <ClInclude Include="DXTKRenderer.h" />
-    <ClInclude Include="ElementManager.h" />
-    <ClInclude Include="EventDispatcher.h" />
-    <ClInclude Include="IDGenerator.h" />
-    <ClInclude Include="InputManageInterface.h" />
-    <ClInclude Include="KeyboardMessage.h" />
-    <ClInclude Include="MenuElement.h" />
-    <ClInclude Include="MouseEvents.h" />
-    <ClInclude Include="RenderInterface.h" />
-    <ClInclude Include="Vector.h" />
-    <ClInclude Include="WindowElement.h" />
+    <ClInclude Include="Menu\ElementManager.h" />
+    <ClInclude Include="Menu\Elements\ButtonElement.h" />
+    <ClInclude Include="Menu\Elements\MenuElement.h" />
+    <ClInclude Include="Menu\Elements\WindowElement.h" />
+    <ClInclude Include="Menu\Input\EventDispatcher.h" />
+    <ClInclude Include="Menu\Input\InputManageInterface.h" />
+    <ClInclude Include="Menu\Input\KeyboardMessage.h" />
+    <ClInclude Include="Menu\Input\MouseEvents.h" />
+    <ClInclude Include="Menu\Input\WinAPIInputManager.h" />
+    <ClInclude Include="Menu\Misc\IDGenerator.h" />
+    <ClInclude Include="Menu\Misc\Vector.h" />
+    <ClInclude Include="Menu\Rendering\Color.h" />
+    <ClInclude Include="Menu\Rendering\DXTKRenderer.h" />
+    <ClInclude Include="Menu\Rendering\RenderInterface.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
