@@ -16,5 +16,6 @@ using Vector2f = Vector2<float>;
 #include "Menu/Elements/MenuElement.h"
 #include "Menu/Elements/ButtonElement.h"
 #include "Menu/Elements/WindowElement.h"
+#include "Menu/Elements/SliderElement.h"
 
 #include "Menu/ElementManager.h"

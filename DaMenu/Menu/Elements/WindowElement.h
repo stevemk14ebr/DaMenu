@@ -3,7 +3,7 @@
 class WindowElement :public MenuElement
 {
 public:
-	virtual ~WindowElement() =default;
+	virtual ~WindowElement();
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
@@ -44,6 +44,16 @@ private:
 	std::vector<MenuElement*> m_SubElements;
 	ButtonElement* m_CloseButton;
 };
+
+WindowElement::~WindowElement()
+{
+	delete m_CloseButton;
+	for (MenuElement* Element : m_SubElements)
+	{
+		delete Element;
+	}
+	m_SubElements.clear();
+}
 
 WindowElement::WindowElement(const WindowElement::Context& Ctx):
 	MenuElement(Ctx.m_Position,Ctx.m_Size)
@@ -118,8 +128,6 @@ void WindowElement::OnMouseMove(const MouseMessage& Msg)
 		m_ePositionChanged.Invoke(m_Position);
 		for (MenuElement* Element : m_SubElements)
 		{
-			/*DO NOT call elements PositionChanged event since the 
-			relative position to form has no changed*/
 			Element->AddPosition(DeltaPosition);
 		}
 	}

@@ -3,6 +3,7 @@
 class ElementManager
 {
 public:
+	~ElementManager();
 	ElementManager(InputManagerInterface* InputManager,RenderInterface* Renderer);
 	uint32_t AddElement(MenuElement* Element);
 	void Render();
@@ -17,6 +18,15 @@ private:
 	InputManagerInterface* m_InputManager;
 	RenderInterface* m_Renderer;
 };
+
+ElementManager::~ElementManager()
+{
+	for (MenuElement* Element : m_Elements)
+	{
+		delete Element;
+	}
+	m_Elements.clear();
+}
 
 ElementManager::ElementManager(InputManagerInterface* InputManager,RenderInterface* Renderer)
 {

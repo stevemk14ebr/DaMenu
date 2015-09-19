@@ -167,6 +167,7 @@
     <ClInclude Include="Menu\ElementManager.h" />
     <ClInclude Include="Menu\Elements\ButtonElement.h" />
     <ClInclude Include="Menu\Elements\MenuElement.h" />
+    <ClInclude Include="Menu\Elements\SliderElement.h" />
     <ClInclude Include="Menu\Elements\WindowElement.h" />
     <ClInclude Include="Menu\Input\EventDispatcher.h" />
     <ClInclude Include="Menu\Input\InputManageInterface.h" />

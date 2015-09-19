@@ -16,6 +16,16 @@ void SetupMenu(ElementManager& GUIManager)
 	BtnCtx.m_Size = Vector2f(100, 20);
 	ButtonElement* Button = new ButtonElement(BtnCtx);
 
+	SliderElement<float>::Context SliderCtx;
+	SliderCtx.m_SliderText = "Slider";
+	SliderCtx.m_Color = Color::Black();
+	SliderCtx.m_DefaultValue = 0.0f;
+	SliderCtx.m_Max = 10.f;
+	SliderCtx.m_Min = 0.f;
+	SliderCtx.m_Position = Vector2f(50, 200);
+	SliderCtx.m_Size = Vector2f(100, 20);
+	SliderElement<float>* Slider = new SliderElement<float>(SliderCtx);
+
 	WindowElement::Context Ctx;
 	Ctx.m_FillColor = Color(.7f, .7f, .7f);
 	Ctx.m_TitleFillColor = Color(.5f, .5f, .5f);
@@ -24,6 +34,7 @@ void SetupMenu(ElementManager& GUIManager)
 	Ctx.m_Size = Vector2f(400, 400);
 	WindowElement* Window = new WindowElement(Ctx);
 	Window->AddSubElement(Button);
+	Window->AddSubElement(Slider);
 	GUIManager.AddElement(Window);
 }
 

@@ -26,8 +26,8 @@ public:
 	const uint32_t GetId() const;
 	Vector2f GetSize();
 	Vector2f GetPosition();
-	void AddPosition(const Vector2f& NewAmount);
-	void SetPosition(const Vector2f& NewPos);
+	virtual void AddPosition(const Vector2f& NewAmount);
+	virtual void SetPosition(const Vector2f& NewPos);
 
 	bool operator!=(const MenuElement& Element) const;
 	bool operator==(const MenuElement& Element) const;
