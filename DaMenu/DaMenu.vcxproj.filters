@@ -68,6 +68,9 @@
     <ClInclude Include="WinAPIInputManager.h">
       <Filter>Header Files\Menu\Input</Filter>
     </ClInclude>
+    <ClInclude Include="ButtonElement.h">
+      <Filter>Header Files\Menu\Elements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

@@ -4,11 +4,14 @@ class ElementManager
 {
 public:
 	ElementManager(InputManagerInterface* InputManager,RenderInterface* Renderer);
-	void AddElement(MenuElement* Element);
+	uint32_t AddElement(MenuElement* Element);
 	void Render();
 	void UpdateInput();
 	void ProcessKeyboardMessage(const KeyboardMessage& Msg);
 	void ProcessMouseMessage(const MouseMessage& Msg);
+
+	template<typename T>
+	T* GetElementById(const uint32_t Id);
 private:
 	std::vector<MenuElement*> m_Elements;
 	InputManagerInterface* m_InputManager;
@@ -28,9 +31,15 @@ ElementManager::ElementManager(InputManagerInterface* InputManager,RenderInterfa
 			std::placeholders::_1);
 }
 
-void ElementManager::AddElement(MenuElement* Element)
+uint32_t ElementManager::AddElement(MenuElement* Element)
 {
+	for (MenuElement* Element2 : m_Elements)
+	{
+		if (Element2->GetId() == Element->GetId())
+			return Element2->GetId();
+	}
 	m_Elements.push_back(Element);
+	return Element->GetId();
 }
 
 void ElementManager::Render()
@@ -78,8 +87,8 @@ void ElementManager::ProcessMouseMessage(const MouseMessage& Msg)
 	case MouseMessage::MouseEvent::BtnUp:
 		for (MenuElement* Element : m_Elements)
 		{
-			if (!Element->IsPointInMouseDownZone(Msg.GetLocation()))
-				continue;
+			//if (!Element->IsPointInMouseDownZone(Msg.GetLocation()))
+			//	continue;
 
 			Element->OnMouseUp(Msg);
 		}
@@ -98,4 +107,14 @@ void ElementManager::UpdateInput()
 {
 	m_InputManager->PollKeyboard();
 	m_InputManager->PollMouse();
+}
+
+template<typename T>
+T* ElementManager::GetElementById(const uint32_t Id)
+{
+	for (MenuElement* Element : m_Elements)
+	{
+		if (Element->GetId() == Id)
+			return dynamic_cast<T*>(Element);
+	}
 }

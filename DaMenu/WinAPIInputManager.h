@@ -15,9 +15,24 @@ private:
 	Vector2f m_OldMousePosition;
 	HWND m_hWnd;
 
+	int GetLeftMouseVK()
+	{
+		return IsMouseSwapped() ? VK_RBUTTON : VK_LBUTTON;
+	}
+	int GetRightMouseVK()
+	{
+		return IsMouseSwapped() ? VK_LBUTTON : VK_RBUTTON;
+	}
 	bool IsKeyDown(SHORT KeyQuery)
 	{
 		return KeyQuery & 0x8000;
+	}
+	bool IsMouseSwapped()
+	{
+		//People can swap left button on mouse to be equal to right button action
+		if (GetSystemMetrics(SM_SWAPBUTTON) == TRUE)
+			return true;
+		return false;
 	}
 };
 
@@ -33,7 +48,7 @@ void WinAPIInputManager::PollMouse()
 		return;
 	Vector2f CurPos = MapCursorToScreenSpace(Vector2f(mouse.x, mouse.y));
 
-	SHORT MouseLeftKeyState = GetAsyncKeyState(VK_LBUTTON);
+	SHORT MouseLeftKeyState = GetAsyncKeyState(GetLeftMouseVK());
 	if (IsKeyDown(MouseLeftKeyState) && !IsKeyDown(m_OldMouseLeftKeyState))
 	{
 		MouseMessage Msg(CurPos, MouseMessage::MouseEvent::BtnDown,
@@ -48,7 +63,7 @@ void WinAPIInputManager::PollMouse()
 		m_eProcessMouseMessage.Invoke(Msg);
 	}
 
-	SHORT MouseRightKeyState = GetAsyncKeyState(VK_RBUTTON);
+	SHORT MouseRightKeyState = GetAsyncKeyState(GetRightMouseVK());
 	if (IsKeyDown(MouseRightKeyState) && !IsKeyDown(m_OldMouseRightKeyState))
 	{
 		MouseMessage Msg(CurPos, MouseMessage::MouseEvent::BtnDown,

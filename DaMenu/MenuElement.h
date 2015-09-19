@@ -18,6 +18,7 @@ class MenuElement
 public:
 	/*ONLY allow element manager to call virtual callbacks via friendship*/
 	friend class ElementManager;
+	friend class WindowElement;
 	MenuElement(const Vector2f& Pos,const Vector2f& Size);
 	virtual ~MenuElement() = default;
 	virtual void Draw(RenderInterface& Renderer) = 0;
@@ -25,6 +26,8 @@ public:
 	const uint32_t GetId() const;
 	Vector2f GetSize();
 	Vector2f GetPosition();
+	void AddPosition(const Vector2f& NewAmount);
+	void SetPosition(const Vector2f& NewPos);
 
 	bool operator!=(const MenuElement& Element) const;
 	bool operator==(const MenuElement& Element) const;
@@ -225,4 +228,14 @@ bool MenuElement::IsPointInMouseDownZone(const Vector2f& Point)
 bool MenuElement::IsCursorInElement()
 {
 	return m_CursorInElement;
+}
+
+void MenuElement::AddPosition(const Vector2f& NewAmount)
+{
+	m_Position += NewAmount;
+}
+
+void MenuElement::SetPosition(const Vector2f& NewPos)
+{
+	m_Position = NewPos;
 }
