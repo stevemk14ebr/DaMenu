@@ -20,4 +20,13 @@ struct Color
 		B = 0.0f;
 		A = 0.0f;
 	}
+
+	static Color Black()
+	{
+		return Color(0,0,0);
+	}
+	static Color White()
+	{
+		return Color(1,1,1);
+	}
 };

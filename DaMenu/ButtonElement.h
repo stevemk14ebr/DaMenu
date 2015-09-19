@@ -22,7 +22,7 @@ public:
 		Color m_TextColor;
 		Context()
 		{
-			m_TextColor = Color(0, 0, 0);
+			m_TextColor = Color::Black();
 		}
 	};
 	ButtonElement(const Context& Ctx);
@@ -47,7 +47,7 @@ void ButtonElement::Draw(RenderInterface& Renderer)
 		BtnColor = m_CursorInElement ? m_Ctx.m_FillColorMouseOver : m_Ctx.m_FillColor;
 
 	Renderer.DrawFilledBox(m_Position, m_Size,BtnColor);
-	Renderer.DrawLineBox(m_Position, m_Size, Color(0,0,0));
+	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
 	Renderer.RenderText(m_Position, m_Ctx.m_TextColor, "%s", m_Ctx.m_ButtonText.c_str());
 }
 

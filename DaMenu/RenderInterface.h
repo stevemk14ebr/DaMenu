@@ -14,5 +14,34 @@ public:
 	virtual void PreFrame() = 0;
 	virtual void Present() = 0;
 
+	enum class RectPoint
+	{
+		TopLeft,
+		TopRight,
+		BottomLeft,
+		BottomRight
+	};
+
+	Vector2f GetRectPoint(const Vector2f& Pos, const Vector2f& Size, const RectPoint PointIndex);
 	virtual ~RenderInterface()=default;
 };
+
+Vector2f RenderInterface::GetRectPoint(const Vector2f& Pos, const Vector2f& Size, const RectPoint PointIndex)
+{
+	/*
+	0-----1
+	|     |
+	|     |
+	2-----3
+	*/
+	if (PointIndex == RectPoint::TopLeft)
+	{
+		return Pos;
+	}else if (PointIndex == RectPoint::TopRight) {
+		return Vector2f(Pos.x + Size.x, Pos.y);
+	}else if (PointIndex == RectPoint::BottomLeft) {
+		return Vector2f(Pos.x, Pos.y + Size.y);
+	}else if (PointIndex == RectPoint::BottomRight) {
+		return Pos + Size;
+	}
+}
