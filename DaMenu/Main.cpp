@@ -10,7 +10,8 @@ void SetupMenu(ElementManager& GUIManager)
 	ButtonElement::Context BtnCtx;
 	BtnCtx.m_ButtonText = "A Button";
 	BtnCtx.m_FillColor = Color(.5f, .5f, .5f);
-	BtnCtx.m_FillColorMouseOver = Color(1, 1, 1);
+	BtnCtx.m_FillColorMouseOver = Color(.7f, .7f, .7f);
+	BtnCtx.m_FillColorMouseDown = Color(.4f, .4f, .4f);
 	BtnCtx.m_Position = Vector2f(50, 50);
 	BtnCtx.m_Size = Vector2f(100, 20);
 	ButtonElement* Button = new ButtonElement(BtnCtx);
