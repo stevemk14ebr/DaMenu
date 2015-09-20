@@ -19,7 +19,7 @@ void SetupMenu(ElementManager& GUIManager)
 	SliderElement<float>::Context SliderCtx;
 	SliderCtx.m_SliderText = "Slider";
 	SliderCtx.m_Color = Color::Black();
-	SliderCtx.m_DefaultValue = 0.0f;
+	SliderCtx.m_DefaultValue = 5.1f;
 	SliderCtx.m_Max = 10.f;
 	SliderCtx.m_Min = 0.f;
 	SliderCtx.m_Position = Vector2f(50, 80);

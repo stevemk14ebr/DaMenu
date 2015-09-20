@@ -15,16 +15,17 @@ public:
 	T GetValue();
 
 	struct Context
-	{
+	{ 
+		//Required
 		std::string m_SliderText;
 		Color m_Color;
 		Vector2f m_Position;
 		Vector2f m_Size;
-		
 		T m_Min;
 		T m_Max;
 		T m_DefaultValue;
 
+		//Not Required
 		float m_SliderWidth;
 		Color m_TextColor;
 		Context()
@@ -71,6 +72,8 @@ SliderElement<T>::SliderElement(typename const SliderElement<T>::Context& Ctx):
 	m_Value = m_Ctx.m_DefaultValue;
 	m_SliderPos = m_Position;
 	m_MouseDown = false;
+
+	m_SliderPos.x = Re_Range(m_Ctx.m_DefaultValue, m_Min, m_Max, m_SliderPos.x, (m_Position.x + m_Size.x - m_Ctx.m_SliderWidth));
 }
 
 template<typename T>
@@ -141,7 +144,7 @@ void SliderElement<T>::OnMouseMove(const MouseMessage& Msg)
 		if (MousePos.x > m_Position.x && MousePos.x < (m_Position.x + m_Size.x - m_Ctx.m_SliderWidth))
 		{
 			m_SliderPos.x = MousePos.x;
-			m_Value = Re_Range(m_SliderPos.x, m_Position.x, (m_Position.x + m_Size.x), m_Min, m_Max);
+			m_Value = Re_Range(m_SliderPos.x, m_Position.x, (m_Position.x + m_Size.x-m_Ctx.m_SliderWidth), m_Min, m_Max);
 		}else if (MousePos.x <= m_Position.x) {
 			m_Value = m_Min;
 		}else if (MousePos.y >= (m_Position.x + m_Size.x - m_Ctx.m_SliderWidth)){
