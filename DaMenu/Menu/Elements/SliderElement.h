@@ -12,6 +12,8 @@ public:
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
 	virtual void OnMouseMove(const MouseMessage& Msg) override;
 
+	T GetValue();
+
 	struct Context
 	{
 		std::string m_SliderText;
@@ -145,7 +147,12 @@ void SliderElement<T>::OnMouseMove(const MouseMessage& Msg)
 		}else if (MousePos.y >= (m_Position.x + m_Size.x - m_Ctx.m_SliderWidth)){
 			m_Value = m_Max;
 		}
-		printf("%f \n", m_Value);
 	}
 	m_eMouseMove.Invoke(Msg);
+}
+
+template<typename T>
+T SliderElement<T>::GetValue()
+{
+	return m_Value;
 }
