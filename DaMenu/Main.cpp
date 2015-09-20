@@ -22,9 +22,17 @@ void SetupMenu(ElementManager& GUIManager)
 	SliderCtx.m_DefaultValue = 0.0f;
 	SliderCtx.m_Max = 10.f;
 	SliderCtx.m_Min = 0.f;
-	SliderCtx.m_Position = Vector2f(50, 200);
+	SliderCtx.m_Position = Vector2f(50, 80);
 	SliderCtx.m_Size = Vector2f(100, 20);
 	SliderElement<float>* Slider = new SliderElement<float>(SliderCtx);
+
+	CheckBoxElement::Context CheckBoxCtx;
+	CheckBoxCtx.m_FillColor = Color(.7f, .7f, .7f); 
+	CheckBoxCtx.m_FillColorMouseOver = Color(.5f, .5f, .5f);
+	CheckBoxCtx.m_FillColorChecked = Color(.4f, .4f, .4f);
+	CheckBoxCtx.m_Position = Vector2f(50, 120);
+	CheckBoxCtx.m_Size = Vector2f(20, 20);
+	CheckBoxElement* CheckBox = new CheckBoxElement(CheckBoxCtx);
 
 	WindowElement::Context Ctx;
 	Ctx.m_FillColor = Color(.7f, .7f, .7f);
@@ -35,6 +43,7 @@ void SetupMenu(ElementManager& GUIManager)
 	WindowElement* Window = new WindowElement(Ctx);
 	Window->AddSubElement(Button);
 	Window->AddSubElement(Slider);
+	Window->AddSubElement(CheckBox);
 	GUIManager.AddElement(Window);
 }
 

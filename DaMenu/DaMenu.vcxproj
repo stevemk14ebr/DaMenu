@@ -166,6 +166,7 @@
     <ClInclude Include="DaMenu.h" />
     <ClInclude Include="Menu\ElementManager.h" />
     <ClInclude Include="Menu\Elements\ButtonElement.h" />
+    <ClInclude Include="Menu\Elements\CheckBoxElement.h" />
     <ClInclude Include="Menu\Elements\MenuElement.h" />
     <ClInclude Include="Menu\Elements\SliderElement.h" />
     <ClInclude Include="Menu\Elements\WindowElement.h" />

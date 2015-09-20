@@ -43,8 +43,8 @@ void ButtonElement::Draw(RenderInterface& Renderer)
 	Color BtnColor = m_Ctx.m_FillColor;
 	if (m_IsMouseDown)
 		BtnColor = m_Ctx.m_FillColorMouseDown;
-	else
-		BtnColor = m_CursorInElement ? m_Ctx.m_FillColorMouseOver : m_Ctx.m_FillColor;
+	else if (m_CursorInElement)
+		BtnColor = m_Ctx.m_FillColorMouseOver;
 
 	Renderer.DrawFilledBox(m_Position, m_Size,BtnColor);
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
