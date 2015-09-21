@@ -22,6 +22,7 @@ public:
 	MenuElement(const Vector2f& Pos,const Vector2f& Size);
 	virtual ~MenuElement() = default;
 	virtual void Draw(RenderInterface& Renderer) = 0;
+	virtual ElementType GetType() = 0;
 
 	const uint32_t GetId() const;
 	Vector2f GetSize();

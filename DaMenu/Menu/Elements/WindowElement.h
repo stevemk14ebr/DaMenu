@@ -8,8 +8,12 @@ public:
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
 	virtual void OnMouseMove(const MouseMessage& Msg) override;
+	virtual ElementType GetType() override;
 
 	uint32_t AddSubElement(MenuElement* Element);
+
+	template<typename T>
+	T* GetElementById(const uint32_t Id);
 
 	struct Context
 	{
@@ -189,4 +193,19 @@ void WindowElement::OnClosePressed(const MouseMessage& Msg)
 {
 	printf("Pressed Close\n");
 	//TODO, IMPLEMENT
+}
+
+ElementType WindowElement::GetType()
+{
+	return ElementType::Window;
+}
+
+template<typename T>
+T* WindowElement::GetElementById(const uint32_t Id)
+{
+	for (MenuElement* Element : m_SubElements)
+	{
+		if (Element->GetId() == Id)
+			return dynamic_cast<T*>(Element);
+	}
 }

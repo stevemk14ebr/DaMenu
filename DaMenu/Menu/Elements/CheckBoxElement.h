@@ -2,9 +2,16 @@
 class CheckBoxElement :public MenuElement
 {
 public:
+	typedef EventDispatcher<void(const bool)> eValueChanged;
 	virtual ~CheckBoxElement() = default;
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
+	virtual ElementType GetType() override;
+
+	bool IsChecked();
+
+	eValueChanged& EventValueChanged();
+
 	struct Context
 	{
 		//Required
@@ -27,6 +34,7 @@ public:
 private:
 	Context m_Ctx;
 	bool m_IsChecked;
+	eValueChanged m_eValueChanged;
 };
 
 CheckBoxElement::CheckBoxElement(const Context& Ctx):
@@ -53,4 +61,20 @@ void CheckBoxElement::OnMouseDown(const MouseMessage& Msg)
 {
 	m_IsChecked = !m_IsChecked;
 	m_eMouseDown.Invoke(Msg);
+	m_eValueChanged.Invoke(m_IsChecked);
+}
+
+bool CheckBoxElement::IsChecked()
+{
+	return m_IsChecked;
+}
+
+CheckBoxElement::eValueChanged& CheckBoxElement::EventValueChanged()
+{
+	return m_eValueChanged;
+}
+
+ElementType CheckBoxElement::GetType()
+{
+	return ElementType::Checkbox;
 }

@@ -33,7 +33,7 @@ void SetupMenu(ElementManager& GUIManager)
 	CheckBoxCtx.m_Position = Vector2f(50, 120);
 	CheckBoxCtx.m_Size = Vector2f(20, 20);
 	CheckBoxElement* CheckBox = new CheckBoxElement(CheckBoxCtx);
-
+	
 	WindowElement::Context Ctx;
 	Ctx.m_FillColor = Color(.7f, .7f, .7f);
 	Ctx.m_TitleFillColor = Color(.5f, .5f, .5f);

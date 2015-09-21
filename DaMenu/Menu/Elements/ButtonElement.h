@@ -7,6 +7,7 @@ public:
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
+	virtual ElementType GetType() override;
 
 	struct Context
 	{
@@ -63,3 +64,7 @@ void ButtonElement::OnMouseUp(const MouseMessage& Msg)
 	m_eMouseUp.Invoke(Msg);
 }
 
+ElementType ButtonElement::GetType()
+{
+	return ElementType::Button;
+}

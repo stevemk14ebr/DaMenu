@@ -13,6 +13,14 @@ using Vector2f = Vector2<float>;
 #include "Menu/Rendering/DXTKRenderer.h"
 
 #include <string.h>
+enum class ElementType
+{
+	Window,
+	Button,
+	Slider,
+	Checkbox
+};
+
 #include "Menu/Elements/MenuElement.h"
 #include "Menu/Elements/ButtonElement.h"
 #include "Menu/Elements/WindowElement.h"

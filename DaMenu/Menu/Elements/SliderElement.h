@@ -4,6 +4,8 @@ template<typename T>
 class SliderElement : public MenuElement
 {
 public:
+	typedef EventDispatcher<void(const T&)> eValueChanged;
+
 	virtual ~SliderElement() = default;
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual bool IsPointInMouseDownZone(const Vector2f& Point) override;
@@ -11,6 +13,9 @@ public:
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
 	virtual void OnMouseMove(const MouseMessage& Msg) override;
+	virtual ElementType GetType() override;
+
+	eValueChanged& EventValueChanged();
 
 	T GetValue();
 
@@ -60,6 +65,8 @@ private:
 	bool m_MouseDown;
 	Vector2f m_SliderPos;
 	Vector2f m_SliderOffset;
+
+	eValueChanged m_eValueChanged;
 };
 
 template<typename T>
@@ -152,10 +159,23 @@ void SliderElement<T>::OnMouseMove(const MouseMessage& Msg)
 		}
 	}
 	m_eMouseMove.Invoke(Msg);
+	m_eValueChanged.Invoke(m_Value);
 }
 
 template<typename T>
 T SliderElement<T>::GetValue()
 {
 	return m_Value;
+}
+
+template<typename T>
+typename SliderElement<T>::eValueChanged& SliderElement<T>::EventValueChanged()
+{
+	return m_eValueChanged;
+}
+
+template<typename T>
+ElementType SliderElement<T>::GetType()
+{
+	return ElementType::Slider;
 }
