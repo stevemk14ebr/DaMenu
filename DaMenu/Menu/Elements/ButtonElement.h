@@ -49,7 +49,10 @@ void ButtonElement::Draw(RenderInterface& Renderer)
 
 	Renderer.DrawFilledBox(m_Position, m_Size,BtnColor);
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
-	Renderer.RenderText(m_Position, m_Ctx.m_TextColor, "%s", m_Ctx.m_ButtonText.c_str());
+	Vector2f BtnTxtSize=Renderer.MeasureString("%s", m_Ctx.m_ButtonText.c_str());
+	Vector2f DeltaSize = m_Size - BtnTxtSize;
+	DeltaSize /= 2;
+	Renderer.RenderText(Vector2f(m_Position.x+DeltaSize.x,m_Position.y+DeltaSize.y), m_Ctx.m_TextColor, "%s", m_Ctx.m_ButtonText.c_str());
 }
 
 void ButtonElement::OnMouseDown(const MouseMessage& Msg)

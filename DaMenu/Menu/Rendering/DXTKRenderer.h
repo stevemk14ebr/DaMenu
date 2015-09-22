@@ -42,7 +42,7 @@ public:
 	virtual void DrawFilledBox(const Vector2f& Position, const Vector2f& Size, const Color& color) override;
 	virtual void DrawFilledCircle(const Vector2f& Position, float Radius, const Color& color) override;
 	virtual void RenderText(const Vector2f& Position, const Color& color, const char* format, ...) override;
-	virtual Vector2f MeasureString(const char* Str) override;
+	virtual Vector2f MeasureString(const char* format, ...) override;
 	virtual HRESULT InitWindow(const wchar_t* WindowName,const HINSTANCE hInstance, const Vector2f& Size) override;
 	virtual HRESULT Init() override;
 	virtual ~DXTKRenderer();
@@ -134,10 +134,16 @@ void DXTKRenderer::RenderText(const Vector2f& Position,const Color& color,const 
 	m_Font->DrawString(m_SpriteBatch.get(), WStr.c_str(), DirectX::XMFLOAT2(Position.x, Position.y),DXColor);
 }
 
-Vector2f DXTKRenderer::MeasureString(const char* Str)
+Vector2f DXTKRenderer::MeasureString(const char* format, ...)
 {
+	va_list args;
+	va_start(args, format);
+	char Buffer[1024];
+	vsnprintf(Buffer, 1024, format, args);
+	va_end(args);
+
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	std::wstring WStr = converter.from_bytes(Str);
+	std::wstring WStr = converter.from_bytes(Buffer);
 	DirectX::SimpleMath::Vector2 Size = m_Font->MeasureString(WStr.c_str());
 	return Vector2f(Size.x, Size.y);
 }

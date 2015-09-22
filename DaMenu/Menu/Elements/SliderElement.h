@@ -47,15 +47,6 @@ private:
 		double NewVal = PercentInRange*(outmax - outmin) + outmin; //Just algebraic re-arrangement
 		return (T)NewVal;
 	}
-	std::string HelpSNPrintf(const char* format, ...)
-	{
-		va_list args;
-		va_start(args, format);
-		char Buffer[1024];
-		vsnprintf(Buffer, 1024, format, args);
-		va_end(args);
-		return std::string(Buffer);
-	}
 	
 	Context m_Ctx;
 	T m_Min;
@@ -91,23 +82,19 @@ void SliderElement<T>::Draw(RenderInterface& Renderer)
 
 	if (std::is_integral<T>::value)
 	{
-		std::string IntegralMin = HelpSNPrintf("%d", m_Min);
-		Vector2f MinStrSz = Renderer.MeasureString(IntegralMin.c_str());
-		Renderer.RenderText(Vector2f(m_Position.x - MinStrSz.x-5, m_Position.y), m_Ctx.m_TextColor, IntegralMin.c_str());
+		Vector2f MinStrSz = Renderer.MeasureString("%d",m_Min);
+		Renderer.RenderText(Vector2f(m_Position.x - MinStrSz.x-5, m_Position.y), m_Ctx.m_TextColor,"%d",m_Min);
 
 		Renderer.RenderText(Vector2f(m_Position.x + m_Size.x + 5, m_Position.y), m_Ctx.m_TextColor, "%d", m_Max);
-		std::string Val = HelpSNPrintf("%d", m_Value);
-		Vector2f ValStrSz = Renderer.MeasureString(Val.c_str());
-		Renderer.RenderText(Vector2f(m_SliderPos.x - ValStrSz.x / 2, m_SliderPos.y + m_Size.y), m_Ctx.m_TextColor, Val.c_str());
+		Vector2f ValStrSz = Renderer.MeasureString("%d",m_Value);
+		Renderer.RenderText(Vector2f(m_SliderPos.x - ValStrSz.x / 2, m_SliderPos.y + m_Size.y), m_Ctx.m_TextColor,"%d",m_Value);
 	}else if (std::is_floating_point<T>::value) {
-		std::string FloatMin = HelpSNPrintf("%.1f", m_Min);
-		Vector2f StrSz = Renderer.MeasureString(FloatMin.c_str());
-		Renderer.RenderText(Vector2f(m_Position.x - StrSz.x-5, m_Position.y), m_Ctx.m_TextColor, FloatMin.c_str());
+		Vector2f StrSz = Renderer.MeasureString("%.1f", m_Min);
+		Renderer.RenderText(Vector2f(m_Position.x - StrSz.x-5, m_Position.y), m_Ctx.m_TextColor, "%.1f", m_Min);
 
 		Renderer.RenderText(Vector2f(m_Position.x + m_Size.x+ 5, m_Position.y), m_Ctx.m_TextColor,"%.1f",m_Max);
-		std::string Val = HelpSNPrintf("%.1f", m_Value);
-		Vector2f ValStrSz = Renderer.MeasureString(Val.c_str());
-		Renderer.RenderText(Vector2f(m_SliderPos.x - ValStrSz.x / 2, m_SliderPos.y + m_Size.y), m_Ctx.m_TextColor, Val.c_str());
+		Vector2f ValStrSz = Renderer.MeasureString("%.1f", m_Value);
+		Renderer.RenderText(Vector2f(m_SliderPos.x - ValStrSz.x / 2, m_SliderPos.y + m_Size.y), m_Ctx.m_TextColor, "%.1f", m_Value);
 	}
 }
 

@@ -9,7 +9,8 @@ public:
 	virtual void DrawFilledBox(const Vector2f& Position, const Vector2f& Size, const Color& color)=0;
 	virtual void DrawFilledCircle(const Vector2f& Position, float Radius, const Color& color)=0;
 	virtual void RenderText(const Vector2f& Position, const Color& color, const char* format, ...) = 0;
-	virtual Vector2f MeasureString(const char* Str) = 0;
+	virtual Vector2f MeasureString(const char* format, ...) = 0;
+
 	virtual HRESULT InitWindow(const wchar_t* WindowName, const HINSTANCE hInstance, const Vector2f& Size) = 0;
 	virtual HRESULT Init()=0;
 	virtual void PreFrame() = 0;
