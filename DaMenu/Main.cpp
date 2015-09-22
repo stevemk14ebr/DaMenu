@@ -17,12 +17,12 @@ void SetupMenu(ElementManager& GUIManager)
 	ButtonElement* Button = new ButtonElement(BtnCtx);
 
 	SliderElement<float>::Context SliderCtx;
-	SliderCtx.m_SliderText = "Slider";
+	SliderCtx.m_SliderText = "A Slider";
 	SliderCtx.m_Color = Color::Black();
 	SliderCtx.m_DefaultValue = 5.1f;
 	SliderCtx.m_Max = 10.f;
 	SliderCtx.m_Min = 0.f;
-	SliderCtx.m_Position = Vector2f(50, 80);
+	SliderCtx.m_Position = Vector2f(50, 100);
 	SliderCtx.m_Size = Vector2f(100, 20);
 	SliderElement<float>* Slider = new SliderElement<float>(SliderCtx);
 
@@ -30,7 +30,7 @@ void SetupMenu(ElementManager& GUIManager)
 	CheckBoxCtx.m_FillColor = Color(.7f, .7f, .7f); 
 	CheckBoxCtx.m_FillColorMouseOver = Color(.5f, .5f, .5f);
 	CheckBoxCtx.m_FillColorChecked = Color(.4f, .4f, .4f);
-	CheckBoxCtx.m_Position = Vector2f(50, 120);
+	CheckBoxCtx.m_Position = Vector2f(50, 140);
 	CheckBoxCtx.m_Size = Vector2f(20, 20);
 	CheckBoxElement* CheckBox = new CheckBoxElement(CheckBoxCtx);
 	

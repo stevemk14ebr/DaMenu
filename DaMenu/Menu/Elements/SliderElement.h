@@ -60,6 +60,7 @@ private:
 	eValueChanged m_eValueChanged;
 };
 
+/*m_Size will not account for the text on top or bottom of the slider*/
 template<typename T>
 SliderElement<T>::SliderElement(typename const SliderElement<T>::Context& Ctx):
 	MenuElement(Ctx.m_Position,Ctx.m_Size)
@@ -72,11 +73,14 @@ SliderElement<T>::SliderElement(typename const SliderElement<T>::Context& Ctx):
 	m_MouseDown = false;
 
 	m_SliderPos.x = Re_Range(m_Ctx.m_DefaultValue, m_Min, m_Max, m_SliderPos.x, (m_Position.x + m_Size.x - m_Ctx.m_SliderWidth));
+
 }
 
 template<typename T>
 void SliderElement<T>::Draw(RenderInterface& Renderer)
 {
+	Vector2f SldTxtSz = Renderer.MeasureString("%s", m_Ctx.m_SliderText.c_str());
+	Renderer.RenderText(Vector2f(m_Position.x + (m_Size.x / 2)-(SldTxtSz.x/2), m_Position.y-SldTxtSz.y), m_Ctx.m_TextColor,"%s", m_Ctx.m_SliderText.c_str());
 	Renderer.DrawFilledBox(m_SliderPos,Vector2f(m_Ctx.m_SliderWidth,m_Size.y), m_Ctx.m_Color);
 	Renderer.DrawLine(Vector2f(m_Position.x, m_Position.y + (m_Size.y / 2)), Vector2f(m_Position.x + m_Size.x, m_Position.y + (m_Size.y / 2)), Color::Black());
 
