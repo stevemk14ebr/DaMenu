@@ -59,8 +59,8 @@ void CheckBoxElement::Draw(RenderInterface& Renderer)
 
 void CheckBoxElement::OnMouseDown(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseDown(Msg);
 	m_IsChecked = !m_IsChecked;
-	m_eMouseDown.Invoke(Msg);
 	m_eValueChanged.Invoke(m_IsChecked);
 }
 

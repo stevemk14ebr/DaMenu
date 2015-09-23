@@ -24,6 +24,7 @@ enum class ElementType
 #include "Menu/Elements/MenuElement.h"
 #include "Menu/Elements/ButtonElement.h"
 #include "Menu/Elements/WindowElement.h"
+#include "Menu/Elements/TabbedWindowElement.h"
 #include "Menu/Elements/SliderElement.h"
 #include "Menu/Elements/CheckBoxElement.h"
 

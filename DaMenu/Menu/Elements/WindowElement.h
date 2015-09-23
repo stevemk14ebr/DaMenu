@@ -100,13 +100,13 @@ void WindowElement::Draw(RenderInterface& Renderer)
 
 void WindowElement::OnMouseDown(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseDown(Msg);
 	if (Msg.GetButton() == MouseMessage::MouseButton::Left && PointInRibbon(Msg.GetLocation()))
 	{
 		m_IsMouseDown = true;
 		m_DragOffsetFromPosition = m_Position-Msg.GetLocation();
 	}
 	
-	m_eMouseDown.Invoke(Msg);
 	for (MenuElement* Element : m_SubElements)
 	{
 		if (Element->IsPointInMouseDownZone(Msg.GetLocation()))
@@ -116,9 +116,10 @@ void WindowElement::OnMouseDown(const MouseMessage& Msg)
 
 void WindowElement::OnMouseUp(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseUp(Msg);
 	if(Msg.GetButton() == MouseMessage::MouseButton::Left)
 		m_IsMouseDown = false;
-	m_eMouseUp.Invoke(Msg);
+
 	for (MenuElement* Element : m_SubElements)
 	{
 		Element->OnMouseUp(Msg);
@@ -127,6 +128,7 @@ void WindowElement::OnMouseUp(const MouseMessage& Msg)
 
 void WindowElement::OnMouseMove(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseMove(Msg);
 	if (m_IsMouseDown)
 	{
 		Vector2f NewPosition = Msg.GetLocation() + m_DragOffsetFromPosition;
@@ -138,7 +140,6 @@ void WindowElement::OnMouseMove(const MouseMessage& Msg)
 			Element->AddPosition(DeltaPosition);
 		}
 	}
-	m_eMouseMove.Invoke(Msg);
 
 	for (MenuElement* Element : m_SubElements)
 	{

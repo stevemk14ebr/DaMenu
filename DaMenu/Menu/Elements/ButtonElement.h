@@ -57,14 +57,14 @@ void ButtonElement::Draw(RenderInterface& Renderer)
 
 void ButtonElement::OnMouseDown(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseDown(Msg);
 	m_IsMouseDown = true;
-	m_eMouseDown.Invoke(Msg);
 }
 
 void ButtonElement::OnMouseUp(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseUp(Msg);
 	m_IsMouseDown = false;
-	m_eMouseUp.Invoke(Msg);
 }
 
 ElementType ButtonElement::GetType()

@@ -114,28 +114,29 @@ bool SliderElement<T>::IsPointInMouseDownZone(const Vector2f& Point)
 template<typename T>
 void SliderElement<T>::AddPosition(const Vector2f& NewAmount)
 {
-	m_Position += NewAmount;
+	MenuElement::AddPosition(NewAmount);
 	m_SliderPos += NewAmount;
 }
 
 template<typename T>
 void SliderElement<T>::OnMouseDown(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseDown(Msg);
 	m_MouseDown = true;
 	m_SliderOffset = m_SliderPos - Msg.GetLocation();
-	m_eMouseDown.Invoke(Msg);
 }
 
 template<typename T>
 void SliderElement<T>::OnMouseUp(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseUp(Msg);
 	m_MouseDown = false;
-	m_eMouseUp.Invoke(Msg);
 }
 
 template<typename T>
 void SliderElement<T>::OnMouseMove(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseMove(Msg);
 	if (m_MouseDown)
 	{
 		Vector2f MousePos = Msg.GetLocation()+m_SliderOffset;
@@ -149,7 +150,6 @@ void SliderElement<T>::OnMouseMove(const MouseMessage& Msg)
 			m_Value = m_Max;
 		}
 	}
-	m_eMouseMove.Invoke(Msg);
 	m_eValueChanged.Invoke(m_Value);
 }
 
