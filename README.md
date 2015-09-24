@@ -1,4 +1,7 @@
 # DaMenu
+
+*Work in Progress*
+
 C++ 11 Event Drive, Object Oriented GUI.
 
 1. Renderer Backend end is DirectX 11 Provided by DirectX Toolkit Library.
@@ -9,3 +12,11 @@ C++ 11 Event Drive, Object Oriented GUI.
   * Internal virtual method callbacks for class to class events
   * std::function callbacks allow user to subscribe to class events
   
+Currently Supported Elements:
+* Moveable Window
+
+* Button
+
+* Slider
+
+* Checkbox
