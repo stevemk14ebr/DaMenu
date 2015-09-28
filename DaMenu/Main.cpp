@@ -34,6 +34,7 @@ void SetupMenu(ElementManager& GUIManager)
 	CheckBoxCtx.m_Size = Vector2f(20, 20);
 	CheckBoxElement* CheckBox = new CheckBoxElement(CheckBoxCtx);
 	
+
 	WindowElement::Context Ctx;
 	Ctx.m_FillColor = Color(.7f, .7f, .7f);
 	Ctx.m_TitleFillColor = Color(.5f, .5f, .5f);
@@ -44,6 +45,20 @@ void SetupMenu(ElementManager& GUIManager)
 	Window->AddSubElement(Button);
 	Window->AddSubElement(Slider);
 	Window->AddSubElement(CheckBox);
+
+	TabbedWindowElement::Context TabWinCtx;
+	TabWinCtx.m_TabFillColor = Color(.7f, .7f, .7f);
+	TabWinCtx.m_TabTitleFillColor = Color(.5f, .5f, .5f);
+	TabWinCtx.m_WindowName = "A Tabbed Window";
+	TabWinCtx.m_Position = Vector2f(300, 500);
+	TabWinCtx.m_Size = Vector2f(400, 400);
+	TabWinCtx.m_DefaultTabFocusIndex = 0;
+	TabbedWindowElement* TabbedWindow = new TabbedWindowElement(TabWinCtx);
+	uint32_t Tab1PageId=TabbedWindow->AddTabPage("Tab 1");
+	uint32_t Tab2PageId = TabbedWindow->AddTabPage("Tab 2");
+	TabbedWindowPageElement* Tab1Page = TabbedWindow->GetElementById<TabbedWindowPageElement>(Tab1PageId);
+
+	GUIManager.AddElement(TabbedWindow);
 	GUIManager.AddElement(Window);
 }
 

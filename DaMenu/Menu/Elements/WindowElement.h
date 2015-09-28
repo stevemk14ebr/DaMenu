@@ -37,7 +37,7 @@ public:
 	};
 
 	WindowElement(const Context& Ctx);
-private:
+protected:
 	bool PointInRibbon(const Vector2f& Point);
 	bool PointInClient(const Vector2f& Point);
 	void OnClosePressed(const MouseMessage& Msg);
@@ -212,4 +212,5 @@ T* WindowElement::GetElementById(const uint32_t Id)
 		if (Element->GetId() == Id)
 			return dynamic_cast<T*>(Element);
 	}
+	return nullptr;
 }

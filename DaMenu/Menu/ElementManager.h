@@ -131,8 +131,14 @@ T* ElementManager::GetElementById(const uint32_t Id)
 		if (Element->GetType() == ElementType::Window)
 		{
 			WindowElement* WindowElem = dynamic_cast<WindowElement*>(Element);
-			if (WindowElem != nullptr)
-				return WindowElem->GetElementById<T*>(Id);
+			if (WindowElem == nullptr)
+				continue;
+
+			T* RetElement= WindowElem->GetElementById<T>(Id);
+			if(RetElement == nullptr)
+				continue;
+			return RetElement;
 		}
 	}
+	return nullptr;
 }
