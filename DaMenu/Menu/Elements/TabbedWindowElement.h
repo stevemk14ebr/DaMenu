@@ -77,7 +77,7 @@ void TabbedWindowElement::Draw(RenderInterface& Renderer)
 
 ElementType TabbedWindowElement::GetType()
 {
-	return ElementType::Window;
+	return ElementType::TabbedWindow;
 }
 
 template<typename T>

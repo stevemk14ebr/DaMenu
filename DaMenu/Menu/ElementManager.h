@@ -139,6 +139,18 @@ T* ElementManager::GetElementById(const uint32_t Id)
 				continue;
 			return RetElement;
 		}
+		if (Element->GetType() == ElementType::TabbedWindow)
+		{
+			TabbedWindowElement* TabbedWindowElem = dynamic_cast<TabbedWindowElement*>(Element);
+			if(TabbedWindowElem ==nullptr)
+				continue;
+
+			T* RetElement = TabbedWindowElem->GetElementById<T>(Id);
+			if(RetElement == nullptr)
+				continue;
+
+			return RetElement;
+		}
 	}
 	return nullptr;
 }
