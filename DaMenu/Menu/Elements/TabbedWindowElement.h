@@ -9,6 +9,7 @@ public:
 	struct Context
 	{
 		std::string m_WindowName;
+		Color m_TitleFillColor;
 		Color m_TabFillColor;
 		Color m_TabTitleFillColor;
 		Vector2f m_Size;
@@ -17,11 +18,13 @@ public:
 		//optional
 		uint32_t m_DefaultTabFocusIndex;
 		float m_TabBarHeight;
+		float m_BorderWidth;
 		Color m_TabTextColor;
 		Context()
 		{
 			m_DefaultTabFocusIndex = 0;
 			m_TabBarHeight = 25;
+			m_BorderWidth = 5;
 			m_TabTextColor = Color::Black();
 		}
 	};
@@ -58,8 +61,8 @@ uint32_t TabbedWindowElement::AddTabPage(const std::string& TabName)
 	TabCtx.m_WindowName = TabName;
 	TabCtx.m_FillColor = m_Ctx.m_TabFillColor;
 	TabCtx.m_TitleFillColor = m_Ctx.m_TabTitleFillColor;
-	TabCtx.m_Position = m_Position;
-	TabCtx.m_Size = m_Size;
+	TabCtx.m_Position = Vector2f(m_Position.x+m_Ctx.m_BorderWidth,m_Position.y+m_Ctx.m_TabBarHeight);
+	TabCtx.m_Size = Vector2f(m_Size.x-(m_Ctx.m_BorderWidth*2),m_Size.y-m_Ctx.m_TabBarHeight-m_Ctx.m_BorderWidth);
 	TabCtx.m_TitleBarHeight = m_Ctx.m_TabBarHeight;
 	TabCtx.m_TextColor = m_Ctx.m_TabTextColor;
 	TabbedWindowPageElement* TabPage = new TabbedWindowPageElement(TabCtx);
@@ -69,6 +72,8 @@ uint32_t TabbedWindowElement::AddTabPage(const std::string& TabName)
 
 void TabbedWindowElement::Draw(RenderInterface& Renderer)
 {
+	Renderer.DrawFilledBox(m_Position, m_Size, m_Ctx.m_TitleFillColor);
+	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
 	if (m_TabInFocus > m_TabPages.size())
 		return;
 

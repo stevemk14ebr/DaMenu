@@ -49,8 +49,9 @@ void SetupMenu(ElementManager& GUIManager)
 	TabbedWindowElement::Context TabWinCtx;
 	TabWinCtx.m_TabFillColor = Color(.7f, .7f, .7f);
 	TabWinCtx.m_TabTitleFillColor = Color(.5f, .5f, .5f);
+	TabWinCtx.m_TitleFillColor = Color(.5f, .5f, .5f);
 	TabWinCtx.m_WindowName = "A Tabbed Window";
-	TabWinCtx.m_Position = Vector2f(300, 500);
+	TabWinCtx.m_Position = Vector2f(300, 100);
 	TabWinCtx.m_Size = Vector2f(400, 400);
 	TabWinCtx.m_DefaultTabFocusIndex = 0;
 	TabbedWindowElement* TabbedWindow = new TabbedWindowElement(TabWinCtx);
