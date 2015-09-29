@@ -36,6 +36,7 @@ public:
 private:
 	Context m_Ctx;
 	std::vector<TabbedWindowPageElement*> m_TabPages;
+	std::vector<ButtonElement*> m_TabButtons;
 	uint32_t m_TabInFocus;
 };
 
@@ -61,12 +62,32 @@ uint32_t TabbedWindowElement::AddTabPage(const std::string& TabName)
 	TabCtx.m_WindowName = TabName;
 	TabCtx.m_FillColor = m_Ctx.m_TabFillColor;
 	TabCtx.m_TitleFillColor = m_Ctx.m_TabTitleFillColor;
-	TabCtx.m_Position = Vector2f(m_Position.x+m_Ctx.m_BorderWidth,m_Position.y+m_Ctx.m_TabBarHeight);
-	TabCtx.m_Size = Vector2f(m_Size.x-(m_Ctx.m_BorderWidth*2),m_Size.y-m_Ctx.m_TabBarHeight-m_Ctx.m_BorderWidth);
+	TabCtx.m_Position = Vector2f(m_Position.x+m_Ctx.m_BorderWidth,m_Position.y+m_Ctx.m_TabBarHeight*2);
+	TabCtx.m_Size = Vector2f(m_Size.x-(m_Ctx.m_BorderWidth*2),m_Size.y-(m_Ctx.m_TabBarHeight*2)-m_Ctx.m_BorderWidth);
 	TabCtx.m_TitleBarHeight = m_Ctx.m_TabBarHeight;
 	TabCtx.m_TextColor = m_Ctx.m_TabTextColor;
 	TabbedWindowPageElement* TabPage = new TabbedWindowPageElement(TabCtx);
 	m_TabPages.push_back(TabPage);
+
+	ButtonElement::Context BtnCtx;
+	BtnCtx.m_ButtonText = TabName;
+	BtnCtx.m_FillColor = m_Ctx.m_TabFillColor;
+	BtnCtx.m_FillColorMouseDown = Color::White();
+	BtnCtx.m_FillColorMouseOver = Color::Black();
+	//+2 to account for zero index and +1 more for the button being added
+	float WidthPerBtn = (m_Size.x - (m_Ctx.m_BorderWidth * 2)) / (m_TabButtons.size() + 2);
+	int BtnIndex = 0;
+	for (ButtonElement* Btn : m_TabButtons)
+	{
+		Btn->SetSize(Vector2f(WidthPerBtn, m_Ctx.m_TabBarHeight));
+		Btn->SetPosition(Vector2f(WidthPerBtn*BtnIndex+m_Position.x+m_Ctx.m_BorderWidth, Btn->GetPosition().y));
+		BtnIndex++;
+	}
+	BtnCtx.m_Size = Vector2f(WidthPerBtn, m_Ctx.m_TabBarHeight);
+	BtnCtx.m_Position = Vector2f(WidthPerBtn*BtnIndex+m_Ctx.m_BorderWidth, m_Ctx.m_TabBarHeight);
+	ButtonElement* TabBtn = new ButtonElement(BtnCtx);
+	TabBtn->AddPosition(m_Position); //make relative to window
+	m_TabButtons.push_back(TabBtn);
 	return TabPage->GetId();
 }
 
@@ -74,6 +95,12 @@ void TabbedWindowElement::Draw(RenderInterface& Renderer)
 {
 	Renderer.DrawFilledBox(m_Position, m_Size, m_Ctx.m_TitleFillColor);
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
+
+	for (ButtonElement* Btn : m_TabButtons)
+	{
+		Btn->Draw(Renderer);
+	}
+
 	if (m_TabInFocus > m_TabPages.size())
 		return;
 

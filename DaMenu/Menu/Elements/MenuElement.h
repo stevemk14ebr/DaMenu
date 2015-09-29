@@ -29,6 +29,7 @@ public:
 	Vector2f GetPosition();
 	virtual void AddPosition(const Vector2f& NewAmount);
 	virtual void SetPosition(const Vector2f& NewPos);
+	virtual void SetSize(const Vector2f& NewSize);
 
 	bool operator!=(const MenuElement& Element) const;
 	bool operator==(const MenuElement& Element) const;
@@ -239,4 +240,9 @@ void MenuElement::AddPosition(const Vector2f& NewAmount)
 void MenuElement::SetPosition(const Vector2f& NewPos)
 {
 	m_Position = NewPos;
+}
+
+void MenuElement::SetSize(const Vector2f& NewSize)
+{
+	m_Size = NewSize;
 }
