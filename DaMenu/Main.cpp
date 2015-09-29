@@ -15,6 +15,7 @@ void SetupMenu(ElementManager& GUIManager)
 	BtnCtx.m_Position = Vector2f(50, 50);
 	BtnCtx.m_Size = Vector2f(100, 20);
 	ButtonElement* Button = new ButtonElement(BtnCtx);
+	ButtonElement* Button2 = new ButtonElement(BtnCtx);
 
 	SliderElement<float>::Context SliderCtx;
 	SliderCtx.m_SliderText = "A Slider";
@@ -57,6 +58,8 @@ void SetupMenu(ElementManager& GUIManager)
 	uint32_t Tab1PageId=TabbedWindow->AddTabPage("Tab 1");
 	uint32_t Tab2PageId = TabbedWindow->AddTabPage("Tab 2");
 	TabbedWindowPageElement* Tab1Page = TabbedWindow->GetElementById<TabbedWindowPageElement>(Tab1PageId);
+
+	Tab1Page->AddSubElement(Button2);
 
 	GUIManager.AddElement(TabbedWindow);
 	GUIManager.AddElement(Window);

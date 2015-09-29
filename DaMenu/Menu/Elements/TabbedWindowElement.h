@@ -5,7 +5,11 @@ class TabbedWindowElement : public MenuElement
 public:
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual ElementType GetType() override;
-	uint32_t AddTabPage(const std::string& TabName);
+	virtual void OnMouseMove(const MouseMessage& Msg) override;
+	virtual void OnMouseDown(const MouseMessage& Msg) override;
+	virtual void OnPositionChanged(const Vector2f& NewPosition) override;
+	virtual void OnMouseUp(const MouseMessage& Msg) override;
+
 	struct Context
 	{
 		std::string m_WindowName;
@@ -28,16 +32,27 @@ public:
 			m_TabTextColor = Color::Black();
 		}
 	};
+
 	TabbedWindowElement(const Context& Ctx);
 	~TabbedWindowElement();
+
+	uint32_t AddTabPage(const std::string& TabName);
 
 	template<typename T>
 	T* GetElementById(const uint32_t Id);
 private:
+	void ForwardMouseEnterLeave(MenuElement* Element, const MouseMessage &Msg);
+	virtual bool PointInRibbon(const Vector2f& Point);
+	virtual bool PointInClient(const Vector2f& Point);
+	void OnTabButtonPressed(const MouseMessage& Msg, int TabIndex);
+
 	Context m_Ctx;
 	std::vector<TabbedWindowPageElement*> m_TabPages;
 	std::vector<ButtonElement*> m_TabButtons;
 	uint32_t m_TabInFocus;
+
+	Vector2f m_DragOffsetFromPosition;
+	bool m_IsMouseDown;
 };
 
 TabbedWindowElement::TabbedWindowElement(const Context& Ctx):
@@ -45,6 +60,7 @@ TabbedWindowElement::TabbedWindowElement(const Context& Ctx):
 {
 	m_Ctx = Ctx;
 	m_TabInFocus = m_Ctx.m_DefaultTabFocusIndex;
+	m_IsMouseDown = false;
 }
 
 TabbedWindowElement::~TabbedWindowElement()
@@ -86,6 +102,9 @@ uint32_t TabbedWindowElement::AddTabPage(const std::string& TabName)
 	BtnCtx.m_Size = Vector2f(WidthPerBtn, m_Ctx.m_TabBarHeight);
 	BtnCtx.m_Position = Vector2f(WidthPerBtn*BtnIndex+m_Ctx.m_BorderWidth, m_Ctx.m_TabBarHeight);
 	ButtonElement* TabBtn = new ButtonElement(BtnCtx);
+	TabBtn->EventMouseDown() += std::bind(&TabbedWindowElement::OnTabButtonPressed,
+		this, std::placeholders::_1, BtnIndex);
+
 	TabBtn->AddPosition(m_Position); //make relative to window
 	m_TabButtons.push_back(TabBtn);
 	return TabPage->GetId();
@@ -100,7 +119,6 @@ void TabbedWindowElement::Draw(RenderInterface& Renderer)
 	{
 		Btn->Draw(Renderer);
 	}
-
 	if (m_TabInFocus > m_TabPages.size())
 		return;
 
@@ -110,6 +128,110 @@ void TabbedWindowElement::Draw(RenderInterface& Renderer)
 ElementType TabbedWindowElement::GetType()
 {
 	return ElementType::TabbedWindow;
+}
+
+void TabbedWindowElement::OnMouseMove(const MouseMessage& Msg)
+{
+	MenuElement::OnMouseMove(Msg);
+	m_TabPages.at(m_TabInFocus)->OnMouseMove(Msg);
+
+	if (m_IsMouseDown)
+	{
+		Vector2f NewPosition = Msg.GetLocation() + m_DragOffsetFromPosition;
+		OnPositionChanged(NewPosition);
+	}
+
+	for (ButtonElement* Button : m_TabButtons)
+	{
+		ForwardMouseEnterLeave(Button, Msg);
+	}
+}
+
+void TabbedWindowElement::OnPositionChanged(const Vector2f& NewPosition)
+{
+	Vector2f DeltaPosition = NewPosition - m_Position;
+	m_Position = NewPosition;
+	m_ePositionChanged.Invoke(m_Position);
+
+	Vector2f NewTabPosition= Vector2f(m_Position.x + m_Ctx.m_BorderWidth, m_Position.y + m_Ctx.m_TabBarHeight * 2);
+	for (TabbedWindowPageElement* Element : m_TabPages)
+	{
+		Element->OnPositionChanged(NewTabPosition);
+	}
+
+	for (ButtonElement* Button : m_TabButtons)
+	{
+		Button->AddPosition(DeltaPosition);
+	}
+}
+
+void TabbedWindowElement::OnMouseDown(const MouseMessage& Msg)
+{
+	MenuElement::OnMouseDown(Msg);
+	if (Msg.GetButton() == MouseMessage::MouseButton::Left && PointInRibbon(Msg.GetLocation()))
+	{
+		m_IsMouseDown = true;
+		m_DragOffsetFromPosition = m_Position - Msg.GetLocation();
+	}
+
+	for (ButtonElement* Button : m_TabButtons)
+	{
+		if (Button->IsPointInMouseDownZone(Msg.GetLocation()))
+			Button->OnMouseDown(Msg);
+	}
+	m_TabPages.at(m_TabInFocus)->OnMouseDown(Msg);
+}
+
+void TabbedWindowElement::OnMouseUp(const MouseMessage& Msg)
+{
+	MenuElement::OnMouseUp(Msg);
+	if (Msg.GetButton() == MouseMessage::MouseButton::Left)
+		m_IsMouseDown = false;
+
+	m_TabPages.at(m_TabInFocus)->OnMouseUp(Msg);
+	for (ButtonElement* Button : m_TabButtons)
+	{
+		Button->OnMouseUp(Msg);
+	}
+}
+
+void TabbedWindowElement::ForwardMouseEnterLeave(MenuElement* Element, const MouseMessage &Msg)
+{
+	if (!Element->IsPointInControl(Msg.GetLocation()) &&
+		Element->IsCursorInElement())
+	{
+		Element->OnMouseLeave(Msg);
+	}else if (Element->IsPointInControl(Msg.GetLocation()) &&
+		!Element->IsCursorInElement())
+	{
+		Element->OnMouseEnter(Msg);
+	}
+
+	if (Element->IsCursorInElement())
+	{
+		Element->OnMouseMove(Msg);
+	}
+}
+
+bool TabbedWindowElement::PointInRibbon(const Vector2f& Point)
+{
+	Vector2f TabRowBegin = Vector2f(m_Position.x + m_Ctx.m_BorderWidth, m_Position.y + m_Ctx.m_TabBarHeight);
+	if (Point.x > m_Position.x && Point.x < (m_Position.x + m_Size.x) &&
+		Point.y > m_Position.y && Point.y < TabRowBegin.y)
+		return true;
+	return false;
+}
+
+bool TabbedWindowElement::PointInClient(const Vector2f& Point)
+{
+	return m_TabPages.at(m_TabInFocus)->PointInClient(Point);
+}
+
+void TabbedWindowElement::OnTabButtonPressed(const MouseMessage& Msg, int TabIndex)
+{
+	if (TabIndex > m_TabPages.size())
+		return;
+	m_TabInFocus = TabIndex;
 }
 
 template<typename T>

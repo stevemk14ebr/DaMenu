@@ -19,6 +19,8 @@ public:
 	/*ONLY allow element manager to call virtual callbacks via friendship*/
 	friend class ElementManager;
 	friend class WindowElement;
+	friend class TabbedWindowElement;
+	friend class TabbedWindowPageElement;
 	MenuElement(const Vector2f& Pos,const Vector2f& Size);
 	virtual ~MenuElement() = default;
 	virtual void Draw(RenderInterface& Renderer) = 0;

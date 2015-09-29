@@ -8,6 +8,7 @@ public:
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
 	virtual void OnMouseMove(const MouseMessage& Msg) override;
+	virtual void OnPositionChanged(const Vector2f& NewPosition) override;
 	virtual ElementType GetType() override;
 
 	uint32_t AddSubElement(MenuElement* Element);
@@ -38,8 +39,8 @@ public:
 
 	WindowElement(const Context& Ctx);
 protected:
-	bool PointInRibbon(const Vector2f& Point);
-	bool PointInClient(const Vector2f& Point);
+	virtual bool PointInRibbon(const Vector2f& Point);
+	virtual bool PointInClient(const Vector2f& Point);
 	void OnClosePressed(const MouseMessage& Msg);
 
 	Context m_Ctx;
@@ -51,7 +52,6 @@ protected:
 
 WindowElement::~WindowElement()
 {
-	delete m_CloseButton;
 	for (MenuElement* Element : m_SubElements)
 	{
 		delete Element;
@@ -132,13 +132,8 @@ void WindowElement::OnMouseMove(const MouseMessage& Msg)
 	if (m_IsMouseDown)
 	{
 		Vector2f NewPosition = Msg.GetLocation() + m_DragOffsetFromPosition;
-		Vector2f DeltaPosition = NewPosition - m_Position;
-		m_Position = NewPosition;
-		m_ePositionChanged.Invoke(m_Position);
-		for (MenuElement* Element : m_SubElements)
-		{
-			Element->AddPosition(DeltaPosition);
-		}
+		//Move to new spot
+		OnPositionChanged(NewPosition);
 	}
 
 	for (MenuElement* Element : m_SubElements)
@@ -157,6 +152,17 @@ void WindowElement::OnMouseMove(const MouseMessage& Msg)
 		{
 			Element->OnMouseMove(Msg);
 		}
+	}
+}
+
+void WindowElement::OnPositionChanged(const Vector2f& NewPosition)
+{
+	Vector2f DeltaPosition = NewPosition - m_Position;
+	m_Position = NewPosition;
+	m_ePositionChanged.Invoke(m_Position);
+	for (MenuElement* Element : m_SubElements)
+	{
+		Element->AddPosition(DeltaPosition);
 	}
 }
 
