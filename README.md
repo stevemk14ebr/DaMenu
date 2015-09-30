@@ -15,6 +15,8 @@ C++ 11 Event Drive, Object Oriented GUI.
 Currently Supported Elements:
 * Moveable Window
 
+* Moveable TabbedWindow 
+
 * Button
 
 * Slider
