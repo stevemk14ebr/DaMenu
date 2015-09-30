@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Menu/Rendering/DXTKFonts.h"
 #include <d3d11.h>
 #include <directxmath.h>
 #include <PrimitiveBatch.h>
@@ -338,7 +339,7 @@ HRESULT DXTKRenderer::Init()
 	m_BatchEffect->SetProjection(m_ProjectionMatrix);
 
 	m_SpriteBatch.reset(new DirectX::SpriteBatch(m_DeviceContext));
-	m_Font.reset(new DirectX::SpriteFont(m_Device, L"C:\\Users\\Steve\\Desktop\\Constantia.spritefont"));
+	m_Font.reset(new DirectX::SpriteFont(m_Device, (uint8_t*)ConstantiaFont,sizeof(ConstantiaFont)));
 }
 
 DXTKRenderer::~DXTKRenderer()
