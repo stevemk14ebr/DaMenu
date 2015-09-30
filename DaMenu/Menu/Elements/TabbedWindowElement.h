@@ -44,6 +44,7 @@ private:
 	void ForwardMouseEnterLeave(MenuElement* Element, const MouseMessage &Msg);
 	virtual bool PointInRibbon(const Vector2f& Point);
 	virtual bool PointInClient(const Vector2f& Point);
+	virtual bool IsCursorInElement() override;
 	void OnTabButtonPressed(const MouseMessage& Msg, int TabIndex);
 
 	Context m_Ctx;
@@ -225,6 +226,13 @@ bool TabbedWindowElement::PointInRibbon(const Vector2f& Point)
 bool TabbedWindowElement::PointInClient(const Vector2f& Point)
 {
 	return m_TabPages.at(m_TabInFocus)->PointInClient(Point);
+}
+
+bool TabbedWindowElement::IsCursorInElement()
+{
+	if (m_IsMouseDown)
+		return true;
+	return MenuElement::IsCursorInElement();
 }
 
 void TabbedWindowElement::OnTabButtonPressed(const MouseMessage& Msg, int TabIndex)

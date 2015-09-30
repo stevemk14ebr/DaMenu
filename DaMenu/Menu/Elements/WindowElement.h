@@ -41,6 +41,7 @@ public:
 protected:
 	virtual bool PointInRibbon(const Vector2f& Point);
 	virtual bool PointInClient(const Vector2f& Point);
+	virtual bool IsCursorInElement() override;
 	void OnClosePressed(const MouseMessage& Msg);
 
 	Context m_Ctx;
@@ -184,6 +185,15 @@ bool WindowElement::PointInClient(const Vector2f& Point)
 		Point.y > InnerPanelPosition.y && Point.y < (InnerPanelPosition.y + InnerPanelSize.y))
 		return true;
 	return false;
+}
+
+bool WindowElement::IsCursorInElement()
+{
+	//Mouse can go out of element when moved fast, 
+	//this lets us still receive mouse move messages if cursor is down
+	if (m_IsMouseDown)
+		return true;
+	return MenuElement::IsCursorInElement();
 }
 
 uint32_t WindowElement::AddSubElement(MenuElement* Element)
