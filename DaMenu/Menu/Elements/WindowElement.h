@@ -92,7 +92,7 @@ void WindowElement::Draw(RenderInterface& Renderer)
 	Vector2f WndNameSz = Renderer.MeasureString("%s", m_Ctx.m_WindowName.c_str());
 	float DeltaHeight = m_Ctx.m_TitleBarHeight - WndNameSz.y;
 	DeltaHeight /= 2;
-	Renderer.RenderText(Vector2f(m_Position.x ,m_Position.y+DeltaHeight), m_Ctx.m_TextColor, "%s", m_Ctx.m_WindowName.c_str());
+	Renderer.RenderText(Vector2f(m_Position.x + m_Ctx.m_BorderWidth,m_Position.y+DeltaHeight), m_Ctx.m_TextColor, "%s", m_Ctx.m_WindowName.c_str());
 	for (MenuElement* Element : m_SubElements)
 	{
 		Element->Draw(Renderer);
