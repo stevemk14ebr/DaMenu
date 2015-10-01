@@ -183,11 +183,13 @@
     <ClInclude Include="Menu\ElementManager.h" />
     <ClInclude Include="Menu\Elements\ButtonElement.h" />
     <ClInclude Include="Menu\Elements\CheckBoxElement.h" />
+    <ClInclude Include="Menu\Elements\ComboBoxElement.h" />
     <ClInclude Include="Menu\Elements\MenuElement.h" />
     <ClInclude Include="Menu\Elements\SliderElement.h" />
     <ClInclude Include="Menu\Elements\TabbedWindowElement.h" />
     <ClInclude Include="Menu\Elements\TabbedWindowPageElement.h" />
     <ClInclude Include="Menu\Elements\WindowElement.h" />
+    <ClInclude Include="Menu\Input\ComboBoxElement.h" />
     <ClInclude Include="Menu\Input\EventDispatcher.h" />
     <ClInclude Include="Menu\Input\InputManageInterface.h" />
     <ClInclude Include="Menu\Input\KeyboardMessage.h" />

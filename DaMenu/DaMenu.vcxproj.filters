@@ -140,6 +140,12 @@
     <ClInclude Include="DXTK\Inc\XboxDDSTextureLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Menu\Input\ComboBoxElement.h">
+      <Filter>Header Files\Menu\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Elements\ComboBoxElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

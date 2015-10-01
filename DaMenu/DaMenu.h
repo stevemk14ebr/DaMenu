@@ -19,7 +19,8 @@ enum class ElementType
 	TabbedWindow,
 	Button,
 	Slider,
-	Checkbox
+	Checkbox,
+	ComboBox
 };
 
 #include "Menu/Elements/MenuElement.h"
@@ -29,5 +30,5 @@ enum class ElementType
 #include "Menu/Elements/TabbedWindowElement.h"
 #include "Menu/Elements/SliderElement.h"
 #include "Menu/Elements/CheckBoxElement.h"
-
+#include "Menu/Elements/ComboBoxElement.h"
 #include "Menu/ElementManager.h"
