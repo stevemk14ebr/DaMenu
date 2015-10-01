@@ -2,7 +2,7 @@
 
 *Work in Progress*
 
-C++ 11 Event Drive, Object Oriented GUI.
+#C++ 11 Event Drive, Object Oriented GUI.
 
 1. Renderer Backend end is DirectX 11 Provided by DirectX Toolkit Library.
 
@@ -14,7 +14,7 @@ C++ 11 Event Drive, Object Oriented GUI.
   * each class has std::function driven callbacks specific to that class
   * events use familiar += operator as subscription method
   
-Currently Supported Elements:
+#Currently Supported Elements:
 * Moveable Window
 
 * Moveable Tabbed Window 
