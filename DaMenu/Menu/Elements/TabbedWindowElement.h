@@ -5,10 +5,6 @@ class TabbedWindowElement : public MenuElement
 public:
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual ElementType GetType() override;
-	virtual void OnMouseMove(const MouseMessage& Msg) override;
-	virtual void OnMouseDown(const MouseMessage& Msg) override;
-	virtual void OnPositionChanged(const Vector2f& NewPosition) override;
-	virtual void OnMouseUp(const MouseMessage& Msg) override;
 
 	struct Context
 	{
@@ -40,13 +36,17 @@ public:
 
 	template<typename T>
 	T* GetElementById(const uint32_t Id);
-private:
-	void ForwardMouseEnterLeave(MenuElement* Element, const MouseMessage &Msg);
+protected:
+	virtual void OnMouseMove(const MouseMessage& Msg) override;
+	virtual void OnMouseDown(const MouseMessage& Msg) override;
+	virtual void OnPositionChanged(const Vector2f& NewPosition) override;
+	virtual void OnMouseUp(const MouseMessage& Msg) override;
 	virtual bool PointInRibbon(const Vector2f& Point);
 	virtual bool PointInClient(const Vector2f& Point);
 	virtual bool IsCursorInElement() override;
 	void OnTabButtonPressed(const MouseMessage& Msg, int TabIndex);
-
+	void ForwardMouseEnterLeave(MenuElement* Element, const MouseMessage &Msg);
+private:
 	Context m_Ctx;
 	std::vector<TabbedWindowPageElement*> m_TabPages;
 	std::vector<ButtonElement*> m_TabButtons;
@@ -175,7 +175,7 @@ void TabbedWindowElement::OnMouseDown(const MouseMessage& Msg)
 		m_DragOffsetFromPosition = m_Position - Msg.GetLocation();
 	}
 
-	for (ButtonElement* Button : m_TabButtons)
+	for (MenuElement* Button : m_TabButtons)
 	{
 		if (Button->IsPointInMouseDownZone(Msg.GetLocation()))
 			Button->OnMouseDown(Msg);
@@ -190,7 +190,7 @@ void TabbedWindowElement::OnMouseUp(const MouseMessage& Msg)
 		m_IsMouseDown = false;
 
 	m_TabPages.at(m_TabInFocus)->OnMouseUp(Msg);
-	for (ButtonElement* Button : m_TabButtons)
+	for (MenuElement* Button : m_TabButtons)
 	{
 		Button->OnMouseUp(Msg);
 	}

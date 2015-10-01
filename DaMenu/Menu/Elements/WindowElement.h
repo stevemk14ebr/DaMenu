@@ -5,10 +5,6 @@ class WindowElement :public MenuElement
 public:
 	virtual ~WindowElement();
 	virtual void Draw(RenderInterface& Renderer) override;
-	virtual void OnMouseDown(const MouseMessage& Msg) override;
-	virtual void OnMouseUp(const MouseMessage& Msg) override;
-	virtual void OnMouseMove(const MouseMessage& Msg) override;
-	virtual void OnPositionChanged(const Vector2f& NewPosition) override;
 	virtual ElementType GetType() override;
 
 	uint32_t AddSubElement(MenuElement* Element);
@@ -39,6 +35,10 @@ public:
 
 	WindowElement(const Context& Ctx);
 protected:
+	virtual void OnMouseDown(const MouseMessage& Msg) override;
+	virtual void OnMouseUp(const MouseMessage& Msg) override;
+	virtual void OnMouseMove(const MouseMessage& Msg) override;
+	virtual void OnPositionChanged(const Vector2f& NewPosition) override;
 	virtual bool PointInRibbon(const Vector2f& Point);
 	virtual bool PointInClient(const Vector2f& Point);
 	virtual bool IsCursorInElement() override;

@@ -3,15 +3,14 @@
 class TabbedWindowPageElement : public WindowElement
 {
 public:
-	friend TabbedWindowElement;
+	friend class TabbedWindowElement;
 	TabbedWindowPageElement(const Context& Ctx);
 	virtual ~TabbedWindowPageElement() = default;
 	virtual void Draw(RenderInterface& Renderer) override;
-	virtual void OnMouseMove(const MouseMessage& Msg) override;
 protected:
 	virtual bool PointInClient(const Vector2f& Point) override;
 	virtual bool PointInRibbon(const Vector2f& Point) override;
-
+	virtual void OnMouseMove(const MouseMessage& Msg) override;
 };
 
 TabbedWindowPageElement::TabbedWindowPageElement(const Context& Ctx):

@@ -8,13 +8,7 @@ public:
 
 	virtual ~SliderElement() = default;
 	virtual void Draw(RenderInterface& Renderer) override;
-	virtual bool IsPointInMouseDownZone(const Vector2f& Point) override;
-	virtual void AddPosition(const Vector2f& NewAmount) override;
-	virtual void OnMouseDown(const MouseMessage& Msg) override;
-	virtual void OnMouseUp(const MouseMessage& Msg) override;
-	virtual void OnMouseMove(const MouseMessage& Msg) override;
 	virtual ElementType GetType() override;
-
 	eValueChanged& EventValueChanged();
 
 	T GetValue();
@@ -40,6 +34,12 @@ public:
 		}
 	};
 	SliderElement(const Context& Ctx);
+protected:
+	virtual bool IsPointInMouseDownZone(const Vector2f& Point) override;
+	virtual void AddPosition(const Vector2f& NewAmount) override;
+	virtual void OnMouseDown(const MouseMessage& Msg) override;
+	virtual void OnMouseUp(const MouseMessage& Msg) override;
+	virtual void OnMouseMove(const MouseMessage& Msg) override;
 private:
 	T Re_Range(float x, float inmin, float inmax, T outmin, T outmax)
 	{

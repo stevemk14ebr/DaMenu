@@ -5,7 +5,6 @@ public:
 	typedef EventDispatcher<void(const bool)> eValueChanged;
 	virtual ~CheckBoxElement() = default;
 	virtual void Draw(RenderInterface& Renderer) override;
-	virtual void OnMouseDown(const MouseMessage& Msg) override;
 	virtual ElementType GetType() override;
 
 	bool IsChecked();
@@ -31,6 +30,8 @@ public:
 		}
 	};
 	CheckBoxElement(const Context& Ctx);
+protected:
+	virtual void OnMouseDown(const MouseMessage& Msg) override;
 private:
 	Context m_Ctx;
 	bool m_IsChecked;

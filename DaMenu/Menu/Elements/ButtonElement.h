@@ -5,8 +5,6 @@ class ButtonElement: public MenuElement
 public:
 	virtual ~ButtonElement() = default;
 	virtual void Draw(RenderInterface& Renderer) override;
-	virtual void OnMouseDown(const MouseMessage& Msg) override;
-	virtual void OnMouseUp(const MouseMessage& Msg) override;
 	virtual ElementType GetType() override;
 
 	struct Context
@@ -27,6 +25,9 @@ public:
 		}
 	};
 	ButtonElement(const Context& Ctx);
+protected:
+	virtual void OnMouseDown(const MouseMessage& Msg) override;
+	virtual void OnMouseUp(const MouseMessage& Msg) override;
 private:
 	Context m_Ctx;
 	bool m_IsMouseDown;
