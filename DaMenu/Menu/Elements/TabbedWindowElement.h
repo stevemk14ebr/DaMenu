@@ -3,6 +3,7 @@
 class TabbedWindowElement : public MenuElement
 {
 public:
+	typedef EventDispatcher<void(MenuElement*, const uint32_t)> eTabPressed;
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual ElementType GetType() override;
 
@@ -36,6 +37,8 @@ public:
 
 	template<typename T>
 	T* GetElementById(const uint32_t Id);
+
+	eTabPressed& EventTabPressed();
 protected:
 	virtual void OnMouseMove(const MouseMessage& Msg) override;
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
@@ -44,7 +47,7 @@ protected:
 	virtual bool PointInRibbon(const Vector2f& Point);
 	virtual bool PointInClient(const Vector2f& Point);
 	virtual bool IsCursorInElement() override;
-	void OnTabButtonPressed(const MouseMessage& Msg, int TabIndex);
+	virtual void OnTabPressed(const MouseMessage& Msg, const uint32_t TabIndex);
 	void ForwardMouseEnterLeave(MenuElement* Element, const MouseMessage &Msg);
 private:
 	Context m_Ctx;
@@ -54,6 +57,7 @@ private:
 
 	Vector2f m_DragOffsetFromPosition;
 	bool m_IsMouseDown;
+	eTabPressed m_eTabPressed;
 };
 
 TabbedWindowElement::TabbedWindowElement(const Context& Ctx):
@@ -103,7 +107,7 @@ uint32_t TabbedWindowElement::AddTabPage(const std::string& TabName)
 	BtnCtx.m_Size = Vector2f(WidthPerBtn, m_Ctx.m_TabBarHeight);
 	BtnCtx.m_Position = Vector2f(WidthPerBtn*BtnIndex+m_Ctx.m_BorderWidth, m_Ctx.m_TabBarHeight);
 	ButtonElement* TabBtn = new ButtonElement(BtnCtx);
-	TabBtn->EventMouseDown() += std::bind(&TabbedWindowElement::OnTabButtonPressed,
+	TabBtn->EventMouseDown() += std::bind(&TabbedWindowElement::OnTabPressed,
 		this, std::placeholders::_1, BtnIndex);
 
 	TabBtn->AddPosition(m_Position); //make relative to window
@@ -235,11 +239,17 @@ bool TabbedWindowElement::IsCursorInElement()
 	return MenuElement::IsCursorInElement();
 }
 
-void TabbedWindowElement::OnTabButtonPressed(const MouseMessage& Msg, int TabIndex)
+void TabbedWindowElement::OnTabPressed(const MouseMessage& Msg,const uint32_t TabIndex)
 {
 	if (TabIndex > m_TabPages.size())
 		return;
 	m_TabInFocus = TabIndex;
+	m_eTabPressed.Invoke(Msg, TabIndex);
+}
+
+TabbedWindowElement::eTabPressed& TabbedWindowElement::EventTabPressed()
+{
+	return m_eTabPressed;
 }
 
 template<typename T>
