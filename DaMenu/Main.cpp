@@ -46,6 +46,16 @@ void SetupMenu(ElementManager& GUIManager)
 	Window->AddSubElement(Slider);
 	Window->AddSubElement(CheckBox);
 
+	ComboBoxElement::Context ComboCtx;
+	ComboCtx.m_FillColor = Color(.5f, .5f, .5f);
+	ComboCtx.m_FillColorMouseOver = Color(.7f, .7f, .7f);
+	ComboCtx.m_FillColorMouseDown = Color(.4f, .4f, .4f);
+	ComboCtx.m_Position = Vector2f(50, 150);
+	ComboCtx.m_Size = Vector2f(100, 20);
+	ComboBoxElement* ComboBox = new ComboBoxElement(ComboCtx);
+	ComboBox->AddComboButton("Option 1");
+	ComboBox->AddComboButton("Option 2");
+
 	TabbedWindowElement::Context TabWinCtx;
 	TabWinCtx.m_TabFillColor = Color(.7f, .7f, .7f);
 	TabWinCtx.m_TabTitleFillColor = Color(.5f, .5f, .5f);
@@ -58,8 +68,8 @@ void SetupMenu(ElementManager& GUIManager)
 	uint32_t Tab1PageId=TabbedWindow->AddTabPage("Tab 1");
 	uint32_t Tab2PageId = TabbedWindow->AddTabPage("Tab 2");
 	TabbedWindowPageElement* Tab1Page = TabbedWindow->GetElementById<TabbedWindowPageElement>(Tab1PageId);
-
 	Tab1Page->AddSubElement(Button2);
+	Tab1Page->AddSubElement(ComboBox);
 
 	GUIManager.AddElement(TabbedWindow);
 	GUIManager.AddElement(Window);
