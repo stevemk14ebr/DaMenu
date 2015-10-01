@@ -3,7 +3,8 @@
 class TabbedWindowElement : public MenuElement
 {
 public:
-	typedef EventDispatcher<void(MenuElement*, const uint32_t)> eTabPressed;
+	//Returns tab ID
+	typedef EventDispatcher<void(const uint32_t)> eTabPressed;
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual ElementType GetType() override;
 
@@ -244,7 +245,7 @@ void TabbedWindowElement::OnTabPressed(const MouseMessage& Msg,const uint32_t Ta
 	if (TabIndex > m_TabPages.size())
 		return;
 	m_TabInFocus = TabIndex;
-	m_eTabPressed.Invoke(Msg, TabIndex);
+	m_eTabPressed.Invoke(m_TabPages.at(m_TabInFocus)->GetId());
 }
 
 TabbedWindowElement::eTabPressed& TabbedWindowElement::EventTabPressed()
