@@ -12,6 +12,7 @@ C++ 11 Event Drive, Object Oriented GUI.
   * Internal virtual method callbacks for class to class events
   * std::function callbacks allow user to subscribe to class events
   * each class has std::function driven callbacks specific to that class
+  * events use familiar += operator as subscription method
   
 Currently Supported Elements:
 * Moveable Window
