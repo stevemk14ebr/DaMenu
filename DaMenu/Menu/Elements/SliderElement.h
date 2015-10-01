@@ -36,6 +36,7 @@ public:
 	SliderElement(const Context& Ctx);
 protected:
 	virtual bool IsPointInMouseDownZone(const Vector2f& Point) override;
+	virtual bool IsCursorInElement() override;
 	virtual void AddPosition(const Vector2f& NewAmount) override;
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
@@ -109,6 +110,14 @@ bool SliderElement<T>::IsPointInMouseDownZone(const Vector2f& Point)
 		Point.y > m_SliderPos.y && Point.y < (m_SliderPos.y + m_Ctx.m_Size.y))
 		return true;
 	return false;
+}
+
+template<typename T>
+bool SliderElement<T>::IsCursorInElement()
+{
+	if (m_MouseDown)
+		return true;
+	return MenuElement::IsCursorInElement();
 }
 
 template<typename T>
