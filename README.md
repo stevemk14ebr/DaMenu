@@ -11,11 +11,14 @@ C++ 11 Event Drive, Object Oriented GUI.
 3. Events driven through callbacks
   * Internal virtual method callbacks for class to class events
   * std::function callbacks allow user to subscribe to class events
+  * each class has std::function driven callbacks specific to that class
   
 Currently Supported Elements:
 * Moveable Window
 
-* Moveable TabbedWindow 
+* Moveable Tabbed Window 
+
+  * Tab Content Pages
 
 * Button
 
