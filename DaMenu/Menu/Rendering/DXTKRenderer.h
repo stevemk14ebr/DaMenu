@@ -3,15 +3,16 @@
 #include "Menu/Rendering/DXTKFonts.h"
 #include <d3d11.h>
 #include <directxmath.h>
-#include <PrimitiveBatch.h>
-#include <VertexTypes.h>
+#include "DXTK/Inc/PrimitiveBatch.h"
+#include "DXTK/Inc/VertexTypes.h"
 #include <Effects.h>
 #include <DirectXColors.h>
-#include <SpriteFont.h>
-#include <CommonStates.h>
+#include "DXTK/Inc/SpriteFont.h"
+#include "DXTK/Inc/CommonStates.h"
 #include <codecvt>
 #include <locale>
-#include <SimpleMath.h>
+#include "DXTK/Inc/SimpleMath.h"
+#include "DXTK/Inc/Effects.h"
 #pragma comment(lib,"DirectXTK")
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

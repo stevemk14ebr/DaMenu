@@ -71,8 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Visual Studio 2015\Libraries\DXTK\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Visual Studio 2015\Libraries\DXTK\Bin\Desktop_2015\Win32\Debug;$(LibraryPath)</LibraryPath>
+    <LibraryPath>DXTK\Lib\Win32\Debug;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -81,8 +80,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Visual Studio 2015\Libraries\DXTK\Inc;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Visual Studio 2015\Libraries\DXTK\Bin\Desktop_2015\Win32\Release;$(LibraryPath)</LibraryPath>
+    <LibraryPath>DXTK\Lib\Win32\Release;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
