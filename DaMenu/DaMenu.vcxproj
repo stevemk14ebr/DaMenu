@@ -162,6 +162,24 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DaMenu.h" />
+    <ClInclude Include="DXTK\Inc\Audio.h" />
+    <ClInclude Include="DXTK\Inc\CommonStates.h" />
+    <ClInclude Include="DXTK\Inc\DDSTextureLoader.h" />
+    <ClInclude Include="DXTK\Inc\DirectXHelpers.h" />
+    <ClInclude Include="DXTK\Inc\Effects.h" />
+    <ClInclude Include="DXTK\Inc\GamePad.h" />
+    <ClInclude Include="DXTK\Inc\GeometricPrimitive.h" />
+    <ClInclude Include="DXTK\Inc\Keyboard.h" />
+    <ClInclude Include="DXTK\Inc\Model.h" />
+    <ClInclude Include="DXTK\Inc\Mouse.h" />
+    <ClInclude Include="DXTK\Inc\PrimitiveBatch.h" />
+    <ClInclude Include="DXTK\Inc\ScreenGrab.h" />
+    <ClInclude Include="DXTK\Inc\SimpleMath.h" />
+    <ClInclude Include="DXTK\Inc\SpriteBatch.h" />
+    <ClInclude Include="DXTK\Inc\SpriteFont.h" />
+    <ClInclude Include="DXTK\Inc\VertexTypes.h" />
+    <ClInclude Include="DXTK\Inc\WICTextureLoader.h" />
+    <ClInclude Include="DXTK\Inc\XboxDDSTextureLoader.h" />
     <ClInclude Include="Menu\ElementManager.h" />
     <ClInclude Include="Menu\Elements\ButtonElement.h" />
     <ClInclude Include="Menu\Elements\CheckBoxElement.h" />
@@ -181,6 +199,9 @@
     <ClInclude Include="Menu\Rendering\DXTKFonts.h" />
     <ClInclude Include="Menu\Rendering\DXTKRenderer.h" />
     <ClInclude Include="Menu\Rendering\RenderInterface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="DXTK\Inc\SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
