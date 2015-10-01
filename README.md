@@ -22,3 +22,5 @@ Currently Supported Elements:
 * Slider
 
 * Checkbox
+
+![alt tag](http://i.imgur.com/ho2H8mA.png)
