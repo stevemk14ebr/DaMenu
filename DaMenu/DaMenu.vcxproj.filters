@@ -29,62 +29,62 @@
     <ClInclude Include="DaMenu.h">
       <Filter>Header Files\Menu</Filter>
     </ClInclude>
-    <ClInclude Include="Menu\Elements\ButtonElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Elements\MenuElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Elements\WindowElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Input\EventDispatcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Input\InputManageInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Input\KeyboardMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Input\MouseEvents.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Input\WinAPIInputManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Misc\IDGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Misc\Vector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Rendering\Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Rendering\DXTKRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Menu\Rendering\RenderInterface.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Menu\ElementManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Menu\Elements\SliderElement.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Menu\Elements\ButtonElement.h">
+      <Filter>Header Files\Menu\Elements</Filter>
     </ClInclude>
     <ClInclude Include="Menu\Elements\CheckBoxElement.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Menu\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Elements\MenuElement.h">
+      <Filter>Header Files\Menu\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Elements\SliderElement.h">
+      <Filter>Header Files\Menu\Elements</Filter>
     </ClInclude>
     <ClInclude Include="Menu\Elements\TabbedWindowElement.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Menu\Elements</Filter>
     </ClInclude>
     <ClInclude Include="Menu\Elements\TabbedWindowPageElement.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Menu\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Elements\WindowElement.h">
+      <Filter>Header Files\Menu\Elements</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Input\EventDispatcher.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Input\InputManageInterface.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Input\KeyboardMessage.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Input\MouseEvents.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Input\WinAPIInputManager.h">
+      <Filter>Header Files\Menu\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Misc\IDGenerator.h">
+      <Filter>Header Files\Menu\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Misc\Vector.h">
+      <Filter>Header Files\Menu\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Rendering\Color.h">
+      <Filter>Header Files\Menu\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Menu\Rendering\DXTKFonts.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Menu\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Rendering\DXTKRenderer.h">
+      <Filter>Header Files\Menu\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Menu\Rendering\RenderInterface.h">
+      <Filter>Header Files\Menu\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
