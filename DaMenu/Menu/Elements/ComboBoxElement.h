@@ -32,6 +32,8 @@ protected:
 	virtual void SetPosition(const Vector2f& NewPos) override;
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
+	virtual void OnMouseMove(const MouseMessage& Msg) override;
+	virtual void OnMouseLeave(const MouseMessage& Msg) override;
 	virtual bool IsPointInMouseDownZone(const Vector2f& Point) override;
 private:
 	std::vector<ButtonElement*> m_ComboButtons;
@@ -133,6 +135,40 @@ void ComboBoxElement::OnMouseUp(const MouseMessage& Msg)
 	ascending by order, so at worst the lowest it could
 	be is 1*/
 	m_IdClickedButton = 0;
+}
+
+void ComboBoxElement::OnMouseMove(const MouseMessage& Msg)
+{
+	MenuElement::OnMouseMove(Msg);
+
+	for (ButtonElement* Button : m_ComboButtons)
+	{
+		if (Button->IsPointInControl(Msg.GetLocation()) &&
+			!Button->IsCursorInElement())
+		{
+			Button->OnMouseEnter(Msg);
+		}
+
+		if (Button->IsCursorInElement())
+		{
+			Button->OnMouseMove(Msg);
+		}
+	}
+}
+
+void ComboBoxElement::OnMouseLeave(const MouseMessage& Msg)
+{
+	/*Unlike window elements that have ample room to receive a mouse move event, 
+	ComboBox's size is exactly that of its sub elements, so mouse leave events
+	would be missed without this section here*/
+	for (ButtonElement* Button : m_ComboButtons)
+	{
+		if (!Button->IsPointInControl(Msg.GetLocation()) &&
+			Button->IsCursorInElement())
+		{
+			Button->OnMouseLeave(Msg);
+		}
+	}
 }
 
 bool ComboBoxElement::IsPointInMouseDownZone(const Vector2f& Point)
