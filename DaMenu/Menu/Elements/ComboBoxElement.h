@@ -50,7 +50,6 @@ ComboBoxElement::ComboBoxElement(const Context& Ctx) :
 	MenuElement(Ctx.m_Position, Ctx.m_Size)
 {
 	m_Ctx = Ctx;
-	m_SelectedButton = 0;
 	m_IsDroppedDown = false;
 	m_IdCurrentSelection=AddComboButton("");
 }
@@ -173,9 +172,9 @@ void ComboBoxElement::OnMouseLeave(const MouseMessage& Msg)
 
 bool ComboBoxElement::IsPointInMouseDownZone(const Vector2f& Point)
 {
-	if (m_ComboButtons[m_SelectedButton]->IsPointInMouseDownZone(Point))
+	if (m_ComboButtons[0]->IsPointInMouseDownZone(Point))
 	{
-		m_IdClickedButton = m_ComboButtons[m_SelectedButton]->GetId();
+		m_IdClickedButton = m_ComboButtons[0]->GetId();
 		return true;
 	}
 	if (!m_IsDroppedDown)
