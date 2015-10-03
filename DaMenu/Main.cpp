@@ -59,6 +59,12 @@ void SetupMenu(ElementManager& GUIManager)
 		printf("Selection Changed:%d %s\n",Id,Txt.c_str());
 	};
 
+	LabelElement::Context LabelCtx;
+	LabelCtx.m_Position = Vector2f(50, 130);
+	LabelCtx.m_Size = Vector2f(100, 20);
+	LabelCtx.m_Text = "A Label";
+	LabelElement* Label = new LabelElement(LabelCtx);
+
 	TabbedWindowElement::Context TabWinCtx;
 	TabWinCtx.m_TabFillColor = Color(.7f, .7f, .7f);
 	TabWinCtx.m_TabTitleFillColor = Color(.5f, .5f, .5f);
@@ -73,6 +79,7 @@ void SetupMenu(ElementManager& GUIManager)
 	TabbedWindowPageElement* Tab1Page = TabbedWindow->GetElementById<TabbedWindowPageElement>(Tab1PageId);
 	Tab1Page->AddSubElement(Button2);
 	Tab1Page->AddSubElement(ComboBox);
+	Tab1Page->AddSubElement(Label);
 
 	GUIManager.AddElement(TabbedWindow);
 	GUIManager.AddElement(Window);

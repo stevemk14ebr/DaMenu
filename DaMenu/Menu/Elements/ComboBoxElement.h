@@ -4,7 +4,7 @@ class ComboBoxElement :public MenuElement
 {
 public:
 	typedef EventDispatcher<void(uint32_t, const std::string&)> eSelectionChanged;
-	virtual ~ComboBoxElement() = default;
+	virtual ~ComboBoxElement();
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual ElementType GetType() override;
 
@@ -52,6 +52,15 @@ ComboBoxElement::ComboBoxElement(const Context& Ctx) :
 	m_Ctx = Ctx;
 	m_IsDroppedDown = false;
 	m_IdCurrentSelection=AddComboButton("");
+}
+
+ComboBoxElement::~ComboBoxElement()
+{
+	for (ButtonElement* Button : m_ComboButtons)
+	{
+		delete Button;
+	}
+	m_ComboButtons.clear();
 }
 
 void ComboBoxElement::Draw(RenderInterface& Renderer)

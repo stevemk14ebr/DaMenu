@@ -20,7 +20,8 @@ enum class ElementType
 	Button,
 	Slider,
 	Checkbox,
-	ComboBox
+	ComboBox,
+	Label
 };
 
 #include "Menu/Elements/MenuElement.h"
@@ -31,4 +32,5 @@ enum class ElementType
 #include "Menu/Elements/SliderElement.h"
 #include "Menu/Elements/CheckBoxElement.h"
 #include "Menu/Elements/ComboBoxElement.h"
+#include "Menu/Elements/LabelElement.h"
 #include "Menu/ElementManager.h"
