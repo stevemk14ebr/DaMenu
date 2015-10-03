@@ -55,6 +55,9 @@ void SetupMenu(ElementManager& GUIManager)
 	ComboBoxElement* ComboBox = new ComboBoxElement(ComboCtx);
 	ComboBox->AddComboButton("Option 1");
 	ComboBox->AddComboButton("Option 2");
+	ComboBox->EventSelectionChanged() += [](uint32_t Id, const std::string& Txt) {
+		printf("Selection Changed:%d %s\n",Id,Txt.c_str());
+	};
 
 	TabbedWindowElement::Context TabWinCtx;
 	TabWinCtx.m_TabFillColor = Color(.7f, .7f, .7f);

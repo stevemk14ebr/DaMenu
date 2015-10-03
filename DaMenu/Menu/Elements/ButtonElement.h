@@ -3,9 +3,11 @@
 class ButtonElement: public MenuElement
 {
 public:
+	friend class ComboBoxElement;
 	virtual ~ButtonElement() = default;
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual ElementType GetType() override;
+	void SetText(const std::string& Txt);
 
 	struct Context
 	{
@@ -66,6 +68,11 @@ void ButtonElement::OnMouseUp(const MouseMessage& Msg)
 {
 	MenuElement::OnMouseUp(Msg);
 	m_IsMouseDown = false;
+}
+
+void ButtonElement::SetText(const std::string& Txt)
+{
+	m_Ctx.m_ButtonText = Txt;
 }
 
 ElementType ButtonElement::GetType()
