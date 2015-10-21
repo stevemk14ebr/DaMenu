@@ -106,6 +106,7 @@ void WindowElement::OnMouseDown(const MouseMessage& Msg)
 	{
 		m_IsMouseDown = true;
 		m_DragOffsetFromPosition = m_Position-Msg.GetLocation();
+		m_eZOrderChanged.Invoke(GetId());
 	}
 	
 	for (MenuElement* Element : m_SubElements)

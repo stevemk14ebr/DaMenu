@@ -204,6 +204,7 @@
     <ClInclude Include="Menu\Rendering\RenderInterface.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="DXTK\Inc\SimpleMath.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

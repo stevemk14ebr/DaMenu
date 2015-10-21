@@ -13,6 +13,7 @@ typedef EventDispatcher<void(const MouseMessage&)> eMouseScroll;
 typedef EventDispatcher<void(const KeyboardMessage&)> eKeydown;
 typedef EventDispatcher<void(const KeyboardMessage&)> eKeyUp;
 
+typedef EventDispatcher<void(const uint32_t)> eZOrderChanged;
 class MenuElement
 {
 public:
@@ -48,6 +49,9 @@ public:
 	eMouseScroll& EventMouseScroll();
 	eKeydown& EventKeyDown();
 	eKeyUp& EventKeyUp();
+
+	//Should move this into window elements only
+	eZOrderChanged& EventZOrderChanged();
 protected:
 	/*Any special actions a class should take on events should be
 	executed by overloading these virtual methods 
@@ -87,6 +91,7 @@ protected:
 	eMouseScroll m_eMouseScroll;
 	eKeydown m_eKeyDown;
 	eKeyUp m_eKeyUp;
+	eZOrderChanged m_eZOrderChanged;
 };
 
 MenuElement::MenuElement(const Vector2f& Pos,const Vector2f& Size)
@@ -213,6 +218,10 @@ eKeydown& MenuElement::EventKeyDown()
 eKeyUp& MenuElement::EventKeyUp()
 {
 	return m_eKeyUp;
+}
+eZOrderChanged& MenuElement::EventZOrderChanged()
+{
+	return m_eZOrderChanged;
 }
 
 bool MenuElement::IsPointInControl(const Vector2f& Point)

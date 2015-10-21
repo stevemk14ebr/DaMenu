@@ -13,6 +13,7 @@
 #include <locale>
 #include "DXTK/Inc/SimpleMath.h"
 #include "DXTK/Inc/Effects.h"
+#include <atlbase.h>
 #pragma comment(lib,"DirectXTK")
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -54,18 +55,19 @@ public:
 private:
 	HWND m_hWnd;
 	D3D_DRIVER_TYPE m_DriverType;
-	IDXGISwapChain* m_SwapChain;
-	ID3D11Device* m_Device;
-	ID3D11DeviceContext* m_DeviceContext;
-	D3D_FEATURE_LEVEL    m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
-	ID3D11RenderTargetView* m_RenderTargetView;
-	ID3D11Texture2D* m_DepthStencil;
-	ID3D11DepthStencilView* m_DepthStencilView;
-	ID3D11DepthStencilState* m_DepthStencilState;
-	ID3D11InputLayout* m_BatchInputLayout;
+	CComPtr<IDXGISwapChain> m_SwapChain;
+	CComPtr<ID3D11Device> m_Device;
+	CComPtr<ID3D11DeviceContext> m_DeviceContext;
 
-	ID3D11BlendState* m_AlphaBlendState;
-	ID3D11BlendState* m_NoPremultiplied;
+	D3D_FEATURE_LEVEL    m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
+	CComPtr<ID3D11RenderTargetView> m_RenderTargetView;
+	CComPtr<ID3D11Texture2D> m_DepthStencil;
+	CComPtr<ID3D11DepthStencilView> m_DepthStencilView;
+	CComPtr<ID3D11DepthStencilState> m_DepthStencilState;
+	CComPtr<ID3D11InputLayout> m_BatchInputLayout;
+
+	CComPtr<ID3D11BlendState> m_AlphaBlendState;
+	CComPtr<ID3D11BlendState> m_NoPremultiplied;
 
 	DirectX::SimpleMath::Matrix m_ViewMatrix;
 	DirectX::SimpleMath::Matrix m_ProjectionMatrix;
@@ -345,29 +347,7 @@ HRESULT DXTKRenderer::Init()
 
 DXTKRenderer::~DXTKRenderer()
 {
-	if (m_DeviceContext)
-		m_DeviceContext->ClearState();
-
-	if (m_BatchInputLayout)
-		m_BatchInputLayout->Release();
-
-	if (m_DepthStencilView)
-		m_DepthStencilView->Release();
-
-	if (m_DepthStencil)
-		m_DepthStencil->Release();
-
-	if (m_RenderTargetView)
-		m_RenderTargetView->Release();
-
-	if (m_SwapChain)
-		m_SwapChain->Release();
-
-	if (m_DeviceContext)
-		m_DeviceContext->Release();
-
-	if (m_Device)
-		m_Device->Release();
+	//Smart pointers release stuff automatically
 }
 
 void DXTKRenderer::PreFrame()

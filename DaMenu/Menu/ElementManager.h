@@ -1,5 +1,7 @@
 #pragma once
 #include <vector>
+#include <algorithm>
+#include <iterator>
 class ElementManager
 {
 public:
@@ -14,6 +16,7 @@ public:
 	template<typename T>
 	T* GetElementById(const uint32_t Id);
 private:
+	void ReSortZOrder(const uint32_t Id);
 	std::vector<MenuElement*> m_Elements;
 	InputManagerInterface* m_InputManager;
 	RenderInterface* m_Renderer;
@@ -48,6 +51,8 @@ uint32_t ElementManager::AddElement(MenuElement* Element)
 		if (Element2->GetId() == Element->GetId())
 			return Element2->GetId();
 	}
+	Element->EventZOrderChanged() += 
+		std::bind(&ElementManager::ReSortZOrder, this, std::placeholders::_1);
 	m_Elements.push_back(Element);
 	return Element->GetId();
 }
@@ -117,6 +122,21 @@ void ElementManager::UpdateInput()
 {
 	m_InputManager->PollKeyboard();
 	m_InputManager->PollMouse();
+}
+
+void ElementManager::ReSortZOrder(const uint32_t Id)
+{
+	auto Pivot= std::find_if(m_Elements.begin(), m_Elements.end(), [&](MenuElement* Elem)->bool{
+		return Elem->GetId() == Id;
+	});
+	std::vector<MenuElement*> Temp;
+	for (MenuElement* Elem : m_Elements)
+	{
+		if (Elem->GetId() != Id)
+			Temp.push_back(Elem);
+	}
+	Temp.push_back(*Pivot);
+	m_Elements = Temp;
 }
 
 template<typename T>

@@ -159,5 +159,6 @@
     <None Include="DXTK\Inc\SimpleMath.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>
