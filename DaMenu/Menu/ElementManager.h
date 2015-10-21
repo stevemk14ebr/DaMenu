@@ -59,10 +59,11 @@ uint32_t ElementManager::AddElement(MenuElement* Element)
 
 void ElementManager::Render()
 {
+	//Render in reverse order to allow first element to be on top
 	m_Renderer->PreFrame();
-	for (MenuElement* Element : m_Elements)
+	for (auto i = m_Elements.rbegin(); i != m_Elements.rend();i++)
 	{
-		Element->Draw(*m_Renderer);
+		(*i)->Draw(*m_Renderer);
 	}
 	m_Renderer->Present();
 }
@@ -78,15 +79,18 @@ void ElementManager::ProcessMouseMessage(const MouseMessage& Msg)
 				Element->IsCursorInElement())
 			{
 				Element->OnMouseLeave(Msg);
+				return;
 			}else if(Element->IsPointInControl(Msg.GetLocation()) &&
 				!Element->IsCursorInElement())
 			{
 				Element->OnMouseEnter(Msg);
+				return;
 			}
 
 			if (Element->IsCursorInElement())
 			{
 				Element->OnMouseMove(Msg);
+				return;
 			}
 		}
 		break;
@@ -97,6 +101,7 @@ void ElementManager::ProcessMouseMessage(const MouseMessage& Msg)
 				continue;
 
 			Element->OnMouseDown(Msg);
+			return;
 		}
 		break;
 	case MouseMessage::MouseEvent::BtnUp:
@@ -130,12 +135,12 @@ void ElementManager::ReSortZOrder(const uint32_t Id)
 		return Elem->GetId() == Id;
 	});
 	std::vector<MenuElement*> Temp;
+	Temp.push_back(*Pivot);
 	for (MenuElement* Elem : m_Elements)
 	{
 		if (Elem->GetId() != Id)
 			Temp.push_back(Elem);
 	}
-	Temp.push_back(*Pivot);
 	m_Elements = Temp;
 }
 
