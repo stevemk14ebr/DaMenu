@@ -9,10 +9,11 @@
 2. Object Oriented To allow easy porting to different renderers and input methods
 
 3. Events driven through callbacks
-  * Internal virtual method callbacks for class to class events
-  * std::function callbacks allow user to subscribe to class events
-  * each class has std::function driven callbacks specific to that class
-  * events use familiar += operator as subscription method
+  * Internal virtual method callbacks provide internal super class to derived class events
+  * std::function based EventDispatch callbacks allow user to subscribe to class events
+  * EventDispatcher callbacks provide internal derived class to super class communication
+  * each class has EventDispatcher callbacks specific to that class
+  * EventDispatcher uses familiar += operator as subscription method
   
 #Currently Supported Elements:
 * Moveable Window
