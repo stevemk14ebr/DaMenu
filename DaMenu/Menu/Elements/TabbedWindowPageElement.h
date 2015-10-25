@@ -27,9 +27,9 @@ void TabbedWindowPageElement::Draw(RenderInterface& Renderer)
 	Renderer.DrawFilledBox(m_Position,m_Size, m_Ctx.m_FillColor);
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
 	Renderer.EndLine();
-	for (MenuElement* Element : m_SubElements)
+	for (auto i = m_SubElements.rbegin(); i != m_SubElements.rend(); i++)
 	{
-		Element->Draw(Renderer);
+		(*i)->Draw(Renderer);
 	}
 }
 
@@ -42,15 +42,18 @@ void TabbedWindowPageElement::OnMouseMove(const MouseMessage& Msg)
 			Element->IsCursorInElement())
 		{
 			Element->OnMouseLeave(Msg);
+			return;
 		}else if (Element->IsPointInControl(Msg.GetLocation()) &&
 			!Element->IsCursorInElement())
 		{
 			Element->OnMouseEnter(Msg);
+			return;
 		}
 
 		if (Element->IsCursorInElement())
 		{
 			Element->OnMouseMove(Msg);
+			return;
 		}
 	}
 }

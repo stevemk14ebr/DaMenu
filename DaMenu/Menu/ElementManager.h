@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
-#include <algorithm>
-#include <iterator>
+
 class ElementManager
 {
 public:

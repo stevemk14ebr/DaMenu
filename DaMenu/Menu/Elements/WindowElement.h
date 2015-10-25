@@ -9,6 +9,8 @@ public:
 
 	uint32_t AddSubElement(MenuElement* Element);
 
+	void ReSortZOrder(const uint32_t Id);
+
 	template<typename T>
 	T* GetElementById(const uint32_t Id);
 
@@ -98,9 +100,9 @@ void WindowElement::Draw(RenderInterface& Renderer)
 	Renderer.BeginText();
 	Renderer.RenderText(Vector2f(m_Position.x + m_Ctx.m_BorderWidth,m_Position.y+DeltaHeight), m_Ctx.m_TextColor, "%s", m_Ctx.m_WindowName.c_str());
 	Renderer.EndText();
-	for (MenuElement* Element : m_SubElements)
+	for (auto i = m_SubElements.rbegin(); i != m_SubElements.rend(); i++)
 	{
-		Element->Draw(Renderer);
+		(*i)->Draw(Renderer);
 	}
 }
 
@@ -116,8 +118,11 @@ void WindowElement::OnMouseDown(const MouseMessage& Msg)
 	
 	for (MenuElement* Element : m_SubElements)
 	{
-		if (Element->IsPointInMouseDownZone(Msg.GetLocation()))
-			Element->OnMouseDown(Msg);
+		if (!Element->IsPointInMouseDownZone(Msg.GetLocation()))
+			continue;
+
+		Element->OnMouseDown(Msg);
+		return;
 	}
 }
 
@@ -149,15 +154,18 @@ void WindowElement::OnMouseMove(const MouseMessage& Msg)
 			Element->IsCursorInElement())
 		{
 			Element->OnMouseLeave(Msg);
+			return;
 		}else if (Element->IsPointInControl(Msg.GetLocation()) &&
 			!Element->IsCursorInElement()) 
 		{
 			Element->OnMouseEnter(Msg);
+			return;
 		}
-
+		
 		if (Element->IsCursorInElement())
 		{
 			Element->OnMouseMove(Msg);
+			return;
 		}
 	}
 }
@@ -211,8 +219,29 @@ uint32_t WindowElement::AddSubElement(MenuElement* Element)
 	}
 	//Make sub element relative to window
 	Element->AddPosition(m_Position); 
+	Element->EventZOrderChanged() += std::bind(&WindowElement::ReSortZOrder,
+		this, std::placeholders::_1);
 	m_SubElements.push_back(Element);
 	return Element->GetId();
+}
+
+void WindowElement::ReSortZOrder(const uint32_t Id)
+{
+	//Find the element with Id
+	auto Pivot = std::find_if(m_SubElements.begin(), m_SubElements.end(), [&](MenuElement* Elem)->bool {
+		return Elem->GetId() == Id;
+	});
+	//Push found Element to front
+	std::vector<MenuElement*> Temp;
+	Temp.push_back(*Pivot);
+	//Add Rest
+	for (MenuElement* Elem : m_SubElements)
+	{
+		if (Elem->GetId() != Id)
+			Temp.push_back(Elem);
+	}
+	//Set Re-Ordered Array
+	m_SubElements = Temp;
 }
 
 void WindowElement::OnClosePressed(const MouseMessage& Msg)

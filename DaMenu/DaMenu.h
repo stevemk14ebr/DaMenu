@@ -23,7 +23,8 @@ enum class ElementType
 	ComboBox,
 	Label
 };
-
+#include <algorithm>
+#include <iterator>
 #include "Menu/Elements/MenuElement.h"
 #include "Menu/Elements/ButtonElement.h"
 #include "Menu/Elements/WindowElement.h"

@@ -34,7 +34,10 @@ protected:
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
 	virtual void OnMouseMove(const MouseMessage& Msg) override;
 	virtual void OnMouseLeave(const MouseMessage& Msg) override;
+	virtual void OnMouseEnter(const MouseMessage& Msg) override;
 	virtual bool IsPointInMouseDownZone(const Vector2f& Point) override;
+	virtual bool IsPointInControl(const Vector2f& Point) override;
+	virtual bool IsCursorInElement() override;
 private:
 	std::vector<ButtonElement*> m_ComboButtons;
 	Context m_Ctx;
@@ -115,6 +118,7 @@ void ComboBoxElement::OnMouseDown(const MouseMessage& Msg)
 	if(Msg.GetButton() == MouseMessage::MouseButton::Left)
 		m_IsDroppedDown = !m_IsDroppedDown;
 	
+	m_eZOrderChanged.Invoke(GetId());
 	for (ButtonElement* Button : m_ComboButtons)
 	{
 		if (Button->GetId() == m_IdClickedButton)
@@ -166,6 +170,7 @@ void ComboBoxElement::OnMouseMove(const MouseMessage& Msg)
 
 void ComboBoxElement::OnMouseLeave(const MouseMessage& Msg)
 {
+	MenuElement::OnMouseLeave(Msg);
 	/*Unlike window elements that have ample room to receive a mouse move event, 
 	ComboBox's size is exactly that of its sub elements, so mouse leave events
 	would be missed without this section here*/
@@ -176,6 +181,17 @@ void ComboBoxElement::OnMouseLeave(const MouseMessage& Msg)
 		{
 			Button->OnMouseLeave(Msg);
 		}
+	}
+}
+
+void ComboBoxElement::OnMouseEnter(const MouseMessage& Msg)
+{
+	MenuElement::OnMouseEnter(Msg);
+
+	for (ButtonElement* Butoon : m_ComboButtons)
+	{
+		if(Butoon->IsPointInControl(Msg.GetLocation()))
+			Butoon->OnMouseEnter(Msg);
 	}
 }
 
@@ -196,6 +212,36 @@ bool ComboBoxElement::IsPointInMouseDownZone(const Vector2f& Point)
 			m_IdClickedButton = Button->GetId();
 			return true;
 		}
+	}
+	return false;
+}
+
+bool ComboBoxElement::IsPointInControl(const Vector2f& Point)
+{
+	if (m_ComboButtons[0]->IsPointInControl(Point))
+		return true;
+	if (!m_IsDroppedDown)
+		return false;
+
+	for (ButtonElement* Button : m_ComboButtons)
+	{
+		if (Button->IsPointInControl(Point))
+			return true;
+	}
+	return false;
+}
+
+bool ComboBoxElement::IsCursorInElement()
+{
+	if (m_ComboButtons[0]->IsCursorInElement())
+		return true;
+	if (!m_IsDroppedDown)
+		return false;
+
+	for (ButtonElement* Button : m_ComboButtons)
+	{
+		if (Button->IsCursorInElement())
+			return true;
 	}
 	return false;
 }
