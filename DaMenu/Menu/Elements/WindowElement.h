@@ -81,6 +81,7 @@ WindowElement::WindowElement(const WindowElement::Context& Ctx):
 
 void WindowElement::Draw(RenderInterface& Renderer)
 {
+	Renderer.BeginLine();
 	Renderer.DrawFilledBox(m_Position, m_Size, m_Ctx.m_TitleFillColor);
 
 	Vector2f InnerPanelPosition = Vector2f(m_Position.x + m_Ctx.m_BorderWidth, m_Position.y + m_Ctx.m_TitleBarHeight);
@@ -88,11 +89,15 @@ void WindowElement::Draw(RenderInterface& Renderer)
 	Renderer.DrawFilledBox(InnerPanelPosition,InnerPanelSize, m_Ctx.m_FillColor);
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
 	Renderer.DrawLineBox(InnerPanelPosition, InnerPanelSize, Color::Black());
+	Renderer.EndLine();
 
 	Vector2f WndNameSz = Renderer.MeasureString("%s", m_Ctx.m_WindowName.c_str());
 	float DeltaHeight = m_Ctx.m_TitleBarHeight - WndNameSz.y;
 	DeltaHeight /= 2;
+
+	Renderer.BeginText();
 	Renderer.RenderText(Vector2f(m_Position.x + m_Ctx.m_BorderWidth,m_Position.y+DeltaHeight), m_Ctx.m_TextColor, "%s", m_Ctx.m_WindowName.c_str());
+	Renderer.EndText();
 	for (MenuElement* Element : m_SubElements)
 	{
 		Element->Draw(Renderer);

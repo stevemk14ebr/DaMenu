@@ -37,7 +37,9 @@ void LabelElement::Draw(RenderInterface& Renderer)
 	Vector2f BtnTxtSize = Renderer.MeasureString("%s", m_Ctx.m_Text.c_str());
 	Vector2f DeltaSize = m_Size - BtnTxtSize;
 	DeltaSize /= 2;
+	Renderer.BeginText();
 	Renderer.RenderText(Vector2f(m_Position.x + DeltaSize.x, m_Position.y + DeltaSize.y), m_Ctx.m_TextColor, "%s", m_Ctx.m_Text.c_str());
+	Renderer.EndText();
 }
 
 ElementType LabelElement::GetType()

@@ -15,7 +15,10 @@ public:
 	virtual HRESULT Init()=0;
 	virtual void PreFrame() = 0;
 	virtual void Present() = 0;
-
+	virtual void BeginLine() = 0;
+	virtual void BeginText() = 0;
+	virtual void EndLine() = 0;
+	virtual void EndText() = 0;
 	enum class RectPoint
 	{
 		TopLeft,

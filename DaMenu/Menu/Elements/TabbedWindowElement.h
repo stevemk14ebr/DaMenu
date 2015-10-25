@@ -118,12 +118,17 @@ uint32_t TabbedWindowElement::AddTabPage(const std::string& TabName)
 
 void TabbedWindowElement::Draw(RenderInterface& Renderer)
 {
+	Renderer.BeginLine();
 	Renderer.DrawFilledBox(m_Position, m_Size, m_Ctx.m_TitleFillColor);
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
+	Renderer.EndLine();
+
 	Vector2f WndNameSz = Renderer.MeasureString("%s", m_Ctx.m_WindowName.c_str());
 	float DeltaHeight = m_Ctx.m_TabBarHeight - WndNameSz.y;
 	DeltaHeight /= 2;
+	Renderer.BeginText();
 	Renderer.RenderText(Vector2f(m_Position.x + m_Ctx.m_BorderWidth, m_Position.y + DeltaHeight), m_Ctx.m_TabTextColor, "%s", m_Ctx.m_WindowName.c_str());
+	Renderer.EndText();
 
 	for (ButtonElement* Btn : m_TabButtons)
 	{

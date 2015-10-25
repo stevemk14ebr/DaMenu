@@ -53,9 +53,11 @@ void CheckBoxElement::Draw(RenderInterface& Renderer)
 	else if (m_CursorInElement)
 		CheckColor = m_Ctx.m_FillColorMouseOver;
 
+	Renderer.BeginLine();
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
 	Renderer.DrawFilledBox(Vector2f(m_Position.x+m_Ctx.m_BorderFillGap,m_Position.y+ m_Ctx.m_BorderFillGap), 
 		Vector2f(m_Size.x - m_Ctx.m_BorderFillGap*2, m_Size.y - m_Ctx.m_BorderFillGap*2), CheckColor);
+	Renderer.EndLine();
 }
 
 void CheckBoxElement::OnMouseDown(const MouseMessage& Msg)

@@ -15,6 +15,7 @@ void SetupMenu(ElementManager& GUIManager)
 	BtnCtx.m_Position = Vector2f(50, 50);
 	BtnCtx.m_Size = Vector2f(100, 20);
 	ButtonElement* Button = new ButtonElement(BtnCtx);
+	BtnCtx.m_Position = Vector2f(50, 190);
 	ButtonElement* Button2 = new ButtonElement(BtnCtx);
 
 	SliderElement<float>::Context SliderCtx;

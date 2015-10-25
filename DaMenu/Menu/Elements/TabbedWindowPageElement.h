@@ -23,8 +23,10 @@ TabbedWindowPageElement::TabbedWindowPageElement(const Context& Ctx):
 
 void TabbedWindowPageElement::Draw(RenderInterface& Renderer)
 {
+	Renderer.BeginLine();
 	Renderer.DrawFilledBox(m_Position,m_Size, m_Ctx.m_FillColor);
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
+	Renderer.EndLine();
 	for (MenuElement* Element : m_SubElements)
 	{
 		Element->Draw(Renderer);

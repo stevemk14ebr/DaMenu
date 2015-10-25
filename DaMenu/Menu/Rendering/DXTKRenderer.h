@@ -51,6 +51,10 @@ public:
 	virtual ~DXTKRenderer();
 	virtual void PreFrame() override;
 	virtual void Present() override;
+	virtual void BeginLine() override;
+	virtual void EndLine() override;
+	virtual void BeginText() override;
+    virtual	void EndText() override;
 	HWND GetWindowHWND();
 private:
 	HWND m_hWnd;
@@ -98,7 +102,6 @@ void DXTKRenderer::DrawLineBox(const Vector2f& Position, const Vector2f& Size, c
 
 void DXTKRenderer::DrawLineCircle(const Vector2f& Position,const float Radius, const Color& color)
 {
-
 }
 
 void DXTKRenderer::DrawLine(const Vector2f& Point1, const Vector2f& Point2, const Color& color)
@@ -350,20 +353,36 @@ DXTKRenderer::~DXTKRenderer()
 	//Smart pointers release stuff automatically
 }
 
+void DXTKRenderer::BeginLine()
+{
+	m_BatchEffect->Apply(m_DeviceContext);
+	m_DeviceContext->IASetInputLayout(m_BatchInputLayout);
+	m_Batch->Begin();
+}
+
+void DXTKRenderer::EndLine()
+{
+	m_Batch->End();
+}
+
+void DXTKRenderer::BeginText()
+{
+	m_SpriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_NoPremultiplied);
+}
+
+void DXTKRenderer::EndText()
+{
+	m_SpriteBatch->End();
+}
+
 void DXTKRenderer::PreFrame()
 {
 	m_DeviceContext->ClearRenderTargetView(m_RenderTargetView, DirectX::Colors::LightSkyBlue);
 	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-	m_BatchEffect->Apply(m_DeviceContext);
-	m_DeviceContext->IASetInputLayout(m_BatchInputLayout);
-	m_Batch->Begin();
-	m_SpriteBatch->Begin(DirectX::SpriteSortMode_Deferred,m_NoPremultiplied);
 }
 
 void DXTKRenderer::Present()
 {
-	m_Batch->End();
-	m_SpriteBatch->End();
 	m_SwapChain->Present(0, 0);
 }
 

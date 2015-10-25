@@ -80,11 +80,14 @@ SliderElement<T>::SliderElement(typename const SliderElement<T>::Context& Ctx):
 template<typename T>
 void SliderElement<T>::Draw(RenderInterface& Renderer)
 {
-	Vector2f SldTxtSz = Renderer.MeasureString("%s", m_Ctx.m_SliderText.c_str());
-	Renderer.RenderText(Vector2f(m_Position.x + (m_Size.x / 2)-(SldTxtSz.x/2), m_Position.y-SldTxtSz.y), m_Ctx.m_TextColor,"%s", m_Ctx.m_SliderText.c_str());
+	Renderer.BeginLine();
 	Renderer.DrawFilledBox(m_SliderPos,Vector2f(m_Ctx.m_SliderWidth,m_Size.y), m_Ctx.m_Color);
 	Renderer.DrawLine(Vector2f(m_Position.x, m_Position.y + (m_Size.y / 2)), Vector2f(m_Position.x + m_Size.x, m_Position.y + (m_Size.y / 2)), Color::Black());
+	Renderer.EndLine();
 
+	Renderer.BeginText();
+	Vector2f SldTxtSz = Renderer.MeasureString("%s", m_Ctx.m_SliderText.c_str());
+	Renderer.RenderText(Vector2f(m_Position.x + (m_Size.x / 2) - (SldTxtSz.x / 2), m_Position.y - SldTxtSz.y), m_Ctx.m_TextColor, "%s", m_Ctx.m_SliderText.c_str());
 	if (std::is_integral<T>::value)
 	{
 		Vector2f MinStrSz = Renderer.MeasureString("%d",m_Min);
@@ -101,6 +104,7 @@ void SliderElement<T>::Draw(RenderInterface& Renderer)
 		Vector2f ValStrSz = Renderer.MeasureString("%.1f", m_Value);
 		Renderer.RenderText(Vector2f(m_SliderPos.x - ValStrSz.x / 2, m_SliderPos.y + m_Size.y), m_Ctx.m_TextColor, "%.1f", m_Value);
 	}
+	Renderer.EndText();
 }
 
 template<typename T>
