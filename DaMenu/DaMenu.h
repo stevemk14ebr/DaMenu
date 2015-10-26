@@ -21,7 +21,8 @@ enum class ElementType
 	Slider,
 	Checkbox,
 	ComboBox,
-	Label
+	Label,
+	ColorPicker
 };
 #include <algorithm>
 #include <iterator>
@@ -34,4 +35,5 @@ enum class ElementType
 #include "Menu/Elements/CheckBoxElement.h"
 #include "Menu/Elements/ComboBoxElement.h"
 #include "Menu/Elements/LabelElement.h"
+#include "Menu/Elements/ColorPickerElement.h"
 #include "Menu/ElementManager.h"

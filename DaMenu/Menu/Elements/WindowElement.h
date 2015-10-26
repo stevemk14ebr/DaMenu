@@ -3,6 +3,9 @@
 class WindowElement :public MenuElement
 {
 public:
+	friend class ColorPickerElement;
+	typedef EventDispatcher<void(const uint32_t)> eClosePressed;
+
 	virtual ~WindowElement();
 	virtual void Draw(RenderInterface& Renderer) override;
 	virtual ElementType GetType() override;
@@ -36,6 +39,8 @@ public:
 	};
 
 	WindowElement(const Context& Ctx);
+
+	eClosePressed& EventClosePressed();
 protected:
 	virtual void OnMouseDown(const MouseMessage& Msg) override;
 	virtual void OnMouseUp(const MouseMessage& Msg) override;
@@ -44,6 +49,8 @@ protected:
 	virtual bool PointInRibbon(const Vector2f& Point);
 	virtual bool PointInClient(const Vector2f& Point);
 	virtual bool IsCursorInElement() override;
+	virtual void AddPosition(const Vector2f& NewAmount);
+	virtual void SetPosition(const Vector2f& NewPos);
 	void OnClosePressed(const MouseMessage& Msg);
 
 	Context m_Ctx;
@@ -51,6 +58,7 @@ protected:
 	Vector2f m_DragOffsetFromPosition;
 	std::vector<MenuElement*> m_SubElements;
 	ButtonElement* m_CloseButton;
+	eClosePressed m_eClosePressed;
 };
 
 WindowElement::~WindowElement()
@@ -78,7 +86,8 @@ WindowElement::WindowElement(const WindowElement::Context& Ctx):
 	m_CloseButton = new ButtonElement(CloseBtnCtx);
 	m_CloseButton->EventMouseDown() += 
 		std::bind(&WindowElement::OnClosePressed, this, std::placeholders::_1);
-	AddSubElement(m_CloseButton);
+	m_CloseButton->AddPosition(m_Position); //make relative to window pos
+	m_SubElements.push_back(m_CloseButton);
 }
 
 void WindowElement::Draw(RenderInterface& Renderer)
@@ -219,6 +228,7 @@ uint32_t WindowElement::AddSubElement(MenuElement* Element)
 	}
 	//Make sub element relative to window
 	Element->AddPosition(m_Position); 
+	Element->AddPosition(Vector2f(m_Ctx.m_BorderWidth, m_Ctx.m_TitleBarHeight));
 	Element->EventZOrderChanged() += std::bind(&WindowElement::ReSortZOrder,
 		this, std::placeholders::_1);
 	m_SubElements.push_back(Element);
@@ -246,13 +256,36 @@ void WindowElement::ReSortZOrder(const uint32_t Id)
 
 void WindowElement::OnClosePressed(const MouseMessage& Msg)
 {
-	printf("Pressed Close\n");
-	//TODO, IMPLEMENT
+	m_eClosePressed.Invoke(GetId());
+}
+
+WindowElement::eClosePressed& WindowElement::EventClosePressed()
+{
+	return m_eClosePressed;
 }
 
 ElementType WindowElement::GetType()
 {
 	return ElementType::Window;
+}
+
+void WindowElement::AddPosition(const Vector2f& NewAmount)
+{
+	MenuElement::AddPosition(NewAmount);
+	for (MenuElement* Elem : m_SubElements)
+	{
+		Elem->AddPosition(NewAmount);
+	}
+}
+
+void WindowElement::SetPosition(const Vector2f& NewPos)
+{
+	Vector2f Delta = m_Position - NewPos;
+	MenuElement::SetPosition(NewPos);
+	for (MenuElement* Elem : m_SubElements)
+	{
+		Elem->AddPosition(Delta);
+	}
 }
 
 template<typename T>

@@ -16,7 +16,6 @@ public:
 	struct Context
 	{ 
 		//Required
-		std::string m_SliderText;
 		Color m_Color;
 		Vector2f m_Position;
 		Vector2f m_Size;
@@ -54,9 +53,14 @@ private:
 	T m_Max;
 	T m_Value;
 
+	bool m_DefaultSet;
+
 	bool m_MouseDown;
 	Vector2f m_SliderPos;
 	Vector2f m_SliderOffset;
+
+	float m_SliderLineXStart;
+	float m_SliderLineXEnd;
 
 	eValueChanged m_eValueChanged;
 };
@@ -72,39 +76,55 @@ SliderElement<T>::SliderElement(typename const SliderElement<T>::Context& Ctx):
 	m_Value = m_Ctx.m_DefaultValue;
 	m_SliderPos = m_Position;
 	m_MouseDown = false;
-
-	m_SliderPos.x = Re_Range(m_Ctx.m_DefaultValue, m_Min, m_Max, m_SliderPos.x, (m_Position.x + m_Size.x - m_Ctx.m_SliderWidth));
-
+	m_DefaultSet = false;
 }
 
 template<typename T>
 void SliderElement<T>::Draw(RenderInterface& Renderer)
 {
-	Renderer.BeginLine();
-	Renderer.DrawFilledBox(m_SliderPos,Vector2f(m_Ctx.m_SliderWidth,m_Size.y), m_Ctx.m_Color);
-	Renderer.DrawLine(Vector2f(m_Position.x, m_Position.y + (m_Size.y / 2)), Vector2f(m_Position.x + m_Size.x, m_Position.y + (m_Size.y / 2)), Color::Black());
-	Renderer.EndLine();
 
+	/*                      Slider Name
+	MinStr[5 pixel gap] ---------||---------[5 pixel gap]MaxStr
+	                        CurrentStr
+	*/
 	Renderer.BeginText();
-	Vector2f SldTxtSz = Renderer.MeasureString("%s", m_Ctx.m_SliderText.c_str());
-	Renderer.RenderText(Vector2f(m_Position.x + (m_Size.x / 2) - (SldTxtSz.x / 2), m_Position.y - SldTxtSz.y), m_Ctx.m_TextColor, "%s", m_Ctx.m_SliderText.c_str());
+	Vector2f m_MinStrSz;
+	Vector2f m_MaxStrSz;
 	if (std::is_integral<T>::value)
 	{
-		Vector2f MinStrSz = Renderer.MeasureString("%d",m_Min);
-		Renderer.RenderText(Vector2f(m_Position.x - MinStrSz.x-5, m_Position.y), m_Ctx.m_TextColor,"%d",m_Min);
+		m_MinStrSz = Renderer.MeasureString("%d", m_Min);
+		Renderer.RenderText(Vector2f(m_Position.x, m_Position.y), m_Ctx.m_TextColor, "%d", m_Min);
 
-		Renderer.RenderText(Vector2f(m_Position.x + m_Size.x + 5, m_Position.y), m_Ctx.m_TextColor, "%d", m_Max);
-		Vector2f ValStrSz = Renderer.MeasureString("%d",m_Value);
-		Renderer.RenderText(Vector2f(m_SliderPos.x - ValStrSz.x / 2, m_SliderPos.y + m_Size.y), m_Ctx.m_TextColor,"%d",m_Value);
+		m_MaxStrSz = Renderer.MeasureString("%d", m_Max);
+		Renderer.RenderText(Vector2f(m_Position.x + m_Size.x - m_MaxStrSz.x , m_Position.y), m_Ctx.m_TextColor, "%d", m_Max);
+
+		Vector2f ValStrSz = Renderer.MeasureString("%d", m_Value);
+		Renderer.RenderText(Vector2f(m_SliderPos.x - ValStrSz.x / 2, m_SliderPos.y + m_Size.y), m_Ctx.m_TextColor, "%d", m_Value);
 	}else if (std::is_floating_point<T>::value) {
-		Vector2f StrSz = Renderer.MeasureString("%.1f", m_Min);
-		Renderer.RenderText(Vector2f(m_Position.x - StrSz.x-5, m_Position.y), m_Ctx.m_TextColor, "%.1f", m_Min);
+		m_MinStrSz = Renderer.MeasureString("%.1f", m_Min);
+		Renderer.RenderText(Vector2f(m_Position.x, m_Position.y), m_Ctx.m_TextColor, "%.1f", m_Min);
 
-		Renderer.RenderText(Vector2f(m_Position.x + m_Size.x+ 5, m_Position.y), m_Ctx.m_TextColor,"%.1f",m_Max);
+		m_MaxStrSz = Renderer.MeasureString("%.1f", m_Max);
+		Renderer.RenderText(Vector2f(m_Position.x + m_Size.x - m_MaxStrSz.x, m_Position.y), m_Ctx.m_TextColor, "%.1f", m_Max);
+
 		Vector2f ValStrSz = Renderer.MeasureString("%.1f", m_Value);
 		Renderer.RenderText(Vector2f(m_SliderPos.x - ValStrSz.x / 2, m_SliderPos.y + m_Size.y), m_Ctx.m_TextColor, "%.1f", m_Value);
 	}
 	Renderer.EndText();
+	Renderer.BeginLine();
+	Renderer.DrawFilledBox(m_SliderPos,Vector2f(m_Ctx.m_SliderWidth,m_Size.y), m_Ctx.m_Color);
+
+	m_SliderLineXStart = m_Position.x + m_MinStrSz.x + 5;
+	m_SliderLineXEnd = m_Position.x + m_Size.x - 5 - m_MaxStrSz.x;
+	Renderer.DrawLine(Vector2f(m_SliderLineXStart, m_Position.y + (m_Size.y / 2)), Vector2f(m_SliderLineXEnd, m_Position.y + (m_Size.y / 2)), Color::Black());
+	Renderer.EndLine();
+
+	//Have to wait for one draw call before setting default to know text sizes and where the line is
+	if (!m_DefaultSet)
+	{
+		m_SliderPos.x = Re_Range(m_Ctx.m_DefaultValue, m_Min, m_Max, m_SliderLineXStart, m_SliderLineXEnd);
+		m_DefaultSet = true;
+	}
 }
 
 template<typename T>
@@ -152,14 +172,14 @@ void SliderElement<T>::OnMouseMove(const MouseMessage& Msg)
 	MenuElement::OnMouseMove(Msg);
 	if (m_MouseDown)
 	{
-		Vector2f MousePos = Msg.GetLocation()+m_SliderOffset;
-		if (MousePos.x > m_Position.x && MousePos.x < (m_Position.x + m_Size.x - m_Ctx.m_SliderWidth))
+		Vector2f MousePos = Msg.GetLocation() + m_SliderOffset;
+		if (MousePos.x > m_SliderLineXStart && MousePos.x < m_SliderLineXEnd)
 		{
 			m_SliderPos.x = MousePos.x;
-			m_Value = Re_Range(m_SliderPos.x, m_Position.x, (m_Position.x + m_Size.x-m_Ctx.m_SliderWidth), m_Min, m_Max);
-		}else if (MousePos.x <= m_Position.x) {
+			m_Value = Re_Range(m_SliderPos.x, m_SliderLineXStart, m_SliderLineXEnd, m_Min, m_Max);
+		}else if (MousePos.x <= m_SliderLineXStart) {
 			m_Value = m_Min;
-		}else if (MousePos.y >= (m_Position.x + m_Size.x - m_Ctx.m_SliderWidth)){
+		}else if (MousePos.y >= m_SliderLineXEnd){
 			m_Value = m_Max;
 		}
 	}

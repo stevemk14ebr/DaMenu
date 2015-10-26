@@ -19,9 +19,8 @@ void SetupMenu(ElementManager& GUIManager)
 	ButtonElement* Button2 = new ButtonElement(BtnCtx);
 
 	SliderElement<float>::Context SliderCtx;
-	SliderCtx.m_SliderText = "A Slider";
 	SliderCtx.m_Color = Color::Black();
-	SliderCtx.m_DefaultValue = 5.1f;
+	SliderCtx.m_DefaultValue = 0.f;
 	SliderCtx.m_Max = 10.f;
 	SliderCtx.m_Min = -10.f;
 	SliderCtx.m_Position = Vector2f(50, 100);
@@ -66,6 +65,16 @@ void SetupMenu(ElementManager& GUIManager)
 	LabelCtx.m_Text = "A Label";
 	LabelElement* Label = new LabelElement(LabelCtx);
 
+	ColorPickerElement::Context ColorPickerCtx;
+	ColorPickerCtx.m_FillColor = Color(0.0, .5f, .5f);
+	ColorPickerCtx.m_FillColorMouseOver = Color(.7f, .7f, .7f);
+	ColorPickerCtx.m_Position = Vector2f(100, 100);
+	ColorPickerCtx.m_Size = Vector2f(100, 20);
+	ColorPickerCtx.m_ColorSelectorInfo.m_FillColor= Color(.7f, .7f, .7f);
+	ColorPickerCtx.m_ColorSelectorInfo.m_TitleFillColor = Color(.5f, .5f, .5f);
+	ColorPickerCtx.m_ColorSelectorInfo.m_Size = Vector2f(200, 200);
+	ColorPickerElement* ColorPicker = new ColorPickerElement(ColorPickerCtx);
+
 	TabbedWindowElement::Context TabWinCtx;
 	TabWinCtx.m_TabFillColor = Color(.7f, .7f, .7f);
 	TabWinCtx.m_TabTitleFillColor = Color(.5f, .5f, .5f);
@@ -78,9 +87,12 @@ void SetupMenu(ElementManager& GUIManager)
 	uint32_t Tab1PageId=TabbedWindow->AddTabPage("Tab 1");
 	uint32_t Tab2PageId = TabbedWindow->AddTabPage("Tab 2");
 	TabbedWindowPageElement* Tab1Page = TabbedWindow->GetElementById<TabbedWindowPageElement>(Tab1PageId);
+	TabbedWindowPageElement* Tab2Page = TabbedWindow->GetElementById<TabbedWindowPageElement>(Tab2PageId);
 	Tab1Page->AddSubElement(Button2);
 	Tab1Page->AddSubElement(ComboBox);
 	Tab1Page->AddSubElement(Label);
+
+	Tab2Page->AddSubElement(ColorPicker);
 
 	GUIManager.AddElement(TabbedWindow);
 	GUIManager.AddElement(Window);

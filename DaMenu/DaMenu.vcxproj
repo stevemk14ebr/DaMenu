@@ -183,6 +183,7 @@
     <ClInclude Include="Menu\ElementManager.h" />
     <ClInclude Include="Menu\Elements\ButtonElement.h" />
     <ClInclude Include="Menu\Elements\CheckBoxElement.h" />
+    <ClInclude Include="Menu\Elements\ColorPickerElement.h" />
     <ClInclude Include="Menu\Elements\ComboBoxElement.h" />
     <ClInclude Include="Menu\Elements\LabelElement.h" />
     <ClInclude Include="Menu\Elements\MenuElement.h" />
