@@ -87,7 +87,7 @@ ColorPickerElement::ColorPickerElement(const Context& Ctx) :
 	SliderCtx.m_Color = Color::Black();
 	SliderCtx.m_Min = 0;
 	SliderCtx.m_Max = 255;
-	SliderCtx.m_DefaultValue = 0;
+	SliderCtx.m_DefaultValue = m_Ctx.m_FillColor.R * 255;
 	SliderCtx.m_Position = Vector2f(0, 5);
 	SliderCtx.m_Size = Vector2f(100, 20);
 
@@ -98,18 +98,21 @@ ColorPickerElement::ColorPickerElement(const Context& Ctx) :
 	m_RedSliderId = m_ColorSelectorWindow->AddSubElement(RedSlider);
 	
 	SliderCtx.m_Position = Vector2f(0, 45);
+	SliderCtx.m_DefaultValue = m_Ctx.m_FillColor.G * 255;
 	SliderElement<int>* GreenSlider = new SliderElement<int>(SliderCtx);
 	GreenSlider->EventValueChanged() += std::bind(&ColorPickerElement::OnColorChanged, this,
 		std::placeholders::_1, GreenSlider->GetId());
 	m_GreenSliderId = m_ColorSelectorWindow->AddSubElement(GreenSlider);
 	
 	SliderCtx.m_Position = Vector2f(0, 85);
+	SliderCtx.m_DefaultValue = m_Ctx.m_FillColor.B * 255;
 	SliderElement<int>* BlueSlider = new SliderElement<int>(SliderCtx);
 	BlueSlider->EventValueChanged() += std::bind(&ColorPickerElement::OnColorChanged, this,
 		std::placeholders::_1, BlueSlider->GetId());
 	m_BlueSliderId = m_ColorSelectorWindow->AddSubElement(BlueSlider);
 	
 	SliderCtx.m_Position = Vector2f(0, 125);
+	SliderCtx.m_DefaultValue = m_Ctx.m_FillColor.A * 255;
 	SliderElement<int>* AlphaSlider = new SliderElement<int>(SliderCtx);
 	AlphaSlider->EventValueChanged() += std::bind(&ColorPickerElement::OnColorChanged, this,
 		std::placeholders::_1, AlphaSlider->GetId());
