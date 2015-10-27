@@ -24,7 +24,7 @@ void SetupMenu(ElementManager& GUIManager)
 	SliderCtx.m_Max = 10.f;
 	SliderCtx.m_Min = -10.f;
 	SliderCtx.m_Position = Vector2f(50, 100);
-	SliderCtx.m_Size = Vector2f(100, 20);
+	SliderCtx.m_Size = Vector2f(150, 20);
 	SliderElement<float>* Slider = new SliderElement<float>(SliderCtx);
 
 	CheckBoxElement::Context CheckBoxCtx;

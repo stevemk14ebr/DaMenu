@@ -30,11 +30,15 @@ public:
 		float m_TitleBarHeight;
 		float m_BorderWidth;
 		Color m_TextColor;
+		Color m_DepthHighlightColor;
+		Color m_DepthShadeColor;
 		Context()
 		{
 			m_TitleBarHeight = 25;
 			m_BorderWidth = 5;
 			m_TextColor = Color::Black();
+			m_DepthHighlightColor = Color::White();
+			m_DepthShadeColor = Color::Black();
 		}
 	};
 
@@ -81,8 +85,9 @@ WindowElement::WindowElement(const WindowElement::Context& Ctx):
 	CloseBtnCtx.m_FillColor = Color(.5f, .5f, .5f);
 	CloseBtnCtx.m_FillColorMouseOver = Color(.7f, .7f, .7f);
 	CloseBtnCtx.m_FillColorMouseDown = Color(.4f, .4f, .4f);
-	CloseBtnCtx.m_Position = Vector2f(m_Size.x - 20, 0);
-	CloseBtnCtx.m_Size = Vector2f(15, 15);
+	CloseBtnCtx.m_Size = Vector2f(m_Ctx.m_TitleBarHeight,m_Ctx.m_TitleBarHeight) * .75f;
+	CloseBtnCtx.m_Position = Vector2f(m_Size.x, 0) -
+		Vector2f(m_Ctx.m_TitleBarHeight * .75f + m_Ctx.m_BorderWidth,m_Ctx.m_TitleBarHeight *-.15f);
 	m_CloseButton = new ButtonElement(CloseBtnCtx);
 	m_CloseButton->EventMouseDown() += 
 		std::bind(&WindowElement::OnClosePressed, this, std::placeholders::_1);
@@ -93,13 +98,37 @@ WindowElement::WindowElement(const WindowElement::Context& Ctx):
 void WindowElement::Draw(RenderInterface& Renderer)
 {
 	Renderer.BeginLine();
+	//Outer Panel
 	Renderer.DrawFilledBox(m_Position, m_Size, m_Ctx.m_TitleFillColor);
+	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
 
+	//Inner Panel
 	Vector2f InnerPanelPosition = Vector2f(m_Position.x + m_Ctx.m_BorderWidth, m_Position.y + m_Ctx.m_TitleBarHeight);
 	Vector2f InnerPanelSize = Vector2f(m_Size.x - (m_Ctx.m_BorderWidth * 2), m_Size.y - m_Ctx.m_TitleBarHeight - m_Ctx.m_BorderWidth);
 	Renderer.DrawFilledBox(InnerPanelPosition,InnerPanelSize, m_Ctx.m_FillColor);
-	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
 	Renderer.DrawLineBox(InnerPanelPosition, InnerPanelSize, Color::Black());
+
+	//Start Inner Shadows
+	Vector2f InnerTopLeft = InnerPanelPosition + Vector2f(1, 1);
+	Vector2f InnerTopRight = Renderer.GetRectPoint(InnerPanelPosition, InnerPanelSize, RenderInterface::RectPoint::TopRight) + Vector2f(-1, 1);
+	Vector2f InnerBottomRight = Renderer.GetRectPoint(InnerPanelPosition, InnerPanelSize, RenderInterface::RectPoint::BottomRight) + Vector2f(-1, -1);
+	Vector2f InnerBottomLeft = Renderer.GetRectPoint(InnerPanelPosition, InnerPanelSize, RenderInterface::RectPoint::BottomLeft) + Vector2f(1, -1);
+	Renderer.DrawLine(InnerTopLeft, InnerTopRight, m_Ctx.m_DepthShadeColor);
+	Renderer.DrawLine(InnerTopLeft, InnerBottomLeft, m_Ctx.m_DepthShadeColor);
+	Renderer.DrawLine(InnerTopRight, InnerBottomRight, m_Ctx.m_DepthHighlightColor);
+	Renderer.DrawLine(InnerBottomLeft, InnerBottomRight, m_Ctx.m_DepthHighlightColor);
+	//End Inner Shadows
+
+	//Start Shadows
+	Vector2f TopLeft = m_Position + Vector2f(1, 1);
+	Vector2f TopRight = Renderer.GetRectPoint(m_Position, m_Size, RenderInterface::RectPoint::TopRight) + Vector2f(-1, 1);
+	Vector2f BottomRight = Renderer.GetRectPoint(m_Position, m_Size, RenderInterface::RectPoint::BottomRight) + Vector2f(-1, -1);
+	Vector2f BottomLeft = Renderer.GetRectPoint(m_Position, m_Size, RenderInterface::RectPoint::BottomLeft) + Vector2f(1, -1);
+	Renderer.DrawLine(TopLeft, TopRight, m_Ctx.m_DepthHighlightColor);
+	Renderer.DrawLine(TopLeft, BottomLeft, m_Ctx.m_DepthHighlightColor);
+	Renderer.DrawLine(TopRight, BottomRight, m_Ctx.m_DepthShadeColor);
+	Renderer.DrawLine(BottomLeft, BottomRight, m_Ctx.m_DepthShadeColor);
+	//End Shadows
 	Renderer.EndLine();
 
 	Vector2f WndNameSz = Renderer.MeasureString("%s", m_Ctx.m_WindowName.c_str());

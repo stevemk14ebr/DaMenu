@@ -14,6 +14,7 @@
 #include "DXTK/Inc/SimpleMath.h"
 #include "DXTK/Inc/Effects.h"
 #include <atlbase.h>
+#include "Menu/Rendering/D3D11StateSaver.h"
 #pragma comment(lib,"DirectXTK")
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -81,6 +82,8 @@ private:
 	std::unique_ptr<DirectX::BasicEffect> m_BatchEffect;
 	std::unique_ptr<DirectX::SpriteBatch> m_SpriteBatch;
 	std::unique_ptr<DirectX::SpriteFont> m_Font;
+
+	StateSaver m_SavedState;
 };
 
 void DXTKRenderer::DrawLineBox(const Vector2f& Position, const Vector2f& Size, const Color& color)
@@ -96,6 +99,8 @@ void DXTKRenderer::DrawLineBox(const Vector2f& Position, const Vector2f& Size, c
 	Verts[1] = TopRight;
 	Verts[2] = BottomRight;
 	Verts[3] = BottomLeft;
+
+	TopLeft.position.y = TopLeft.position.y-1;
 	Verts[4] = TopLeft;
 	m_Batch->Draw(D3D11_PRIMITIVE_TOPOLOGY_LINESTRIP, Verts, 5);
 }
@@ -138,6 +143,7 @@ void DXTKRenderer::RenderText(const Vector2f& Position,const Color& color,const 
 	DirectX::SimpleMath::Vector4 DXColor{ color.R, color.G, color.B, color.A };
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 	std::wstring WStr = converter.from_bytes(Buffer);
+	
 	m_Font->DrawString(m_SpriteBatch.get(), WStr.c_str(), DirectX::XMFLOAT2(Position.x, Position.y),DXColor);
 }
 
@@ -345,7 +351,7 @@ HRESULT DXTKRenderer::Init()
 	m_BatchEffect->SetProjection(m_ProjectionMatrix);
 
 	m_SpriteBatch.reset(new DirectX::SpriteBatch(m_DeviceContext));
-	m_Font.reset(new DirectX::SpriteFont(m_Device, (uint8_t*)ConstantiaFont,sizeof(ConstantiaFont)));
+	m_Font.reset(new DirectX::SpriteFont(m_Device, (uint8_t*)Consolas,sizeof(Consolas)));
 }
 
 DXTKRenderer::~DXTKRenderer()
@@ -367,12 +373,14 @@ void DXTKRenderer::EndLine()
 
 void DXTKRenderer::BeginText()
 {
-	m_SpriteBatch->Begin(DirectX::SpriteSortMode_Deferred, m_NoPremultiplied);
+	m_SavedState.StoreState(m_DeviceContext);
+	m_SpriteBatch->Begin(DirectX::SpriteSortMode_Deferred);
 }
 
 void DXTKRenderer::EndText()
 {
 	m_SpriteBatch->End();
+	m_SavedState.RestoreState(m_DeviceContext);
 }
 
 void DXTKRenderer::PreFrame()

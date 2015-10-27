@@ -152,6 +152,9 @@
     <ClInclude Include="Menu\Elements\ColorPickerElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Menu\Rendering\D3D11StateSaver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

@@ -200,6 +200,7 @@
     <ClInclude Include="Menu\Misc\IDGenerator.h" />
     <ClInclude Include="Menu\Misc\Vector.h" />
     <ClInclude Include="Menu\Rendering\Color.h" />
+    <ClInclude Include="Menu\Rendering\D3D11StateSaver.h" />
     <ClInclude Include="Menu\Rendering\DXTKFonts.h" />
     <ClInclude Include="Menu\Rendering\DXTKRenderer.h" />
     <ClInclude Include="Menu\Rendering\RenderInterface.h" />

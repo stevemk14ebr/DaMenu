@@ -93,7 +93,7 @@ void SliderElement<T>::Draw(RenderInterface& Renderer)
 	if (std::is_integral<T>::value)
 	{
 		m_MinStrSz = Renderer.MeasureString("%d", m_Min);
-		Renderer.RenderText(Vector2f(m_Position.x, m_Position.y), m_Ctx.m_TextColor, "%d", m_Min);
+		Renderer.RenderText(m_Position, m_Ctx.m_TextColor, "%d", m_Min);
 
 		m_MaxStrSz = Renderer.MeasureString("%d", m_Max);
 		Renderer.RenderText(Vector2f(m_Position.x + m_Size.x - m_MaxStrSz.x , m_Position.y), m_Ctx.m_TextColor, "%d", m_Max);

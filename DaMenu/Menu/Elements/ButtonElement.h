@@ -21,9 +21,13 @@ public:
 
 		//Not Required
 		Color m_TextColor;
+		Color m_DepthHighlightColor;
+		Color m_DepthShadeColor;
 		Context()
 		{
 			m_TextColor = Color::Black();
+			m_DepthHighlightColor = Color::White();
+			m_DepthShadeColor = Color::Black();
 		}
 	};
 	ButtonElement(const Context& Ctx);
@@ -53,6 +57,17 @@ void ButtonElement::Draw(RenderInterface& Renderer)
 	Renderer.BeginLine();
 	Renderer.DrawFilledBox(m_Position, m_Size,BtnColor);
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
+	//Add Shadows
+	Vector2f TopLeft = m_Position + Vector2f(1, 1);
+	Vector2f TopRight = Renderer.GetRectPoint(m_Position, m_Size, RenderInterface::RectPoint::TopRight) + Vector2f(-1,1);
+	Vector2f BottomRight = Renderer.GetRectPoint(m_Position, m_Size, RenderInterface::RectPoint::BottomRight) + Vector2f(-1,-1);
+	Vector2f BottomLeft = Renderer.GetRectPoint(m_Position, m_Size, RenderInterface::RectPoint::BottomLeft) + Vector2f(1,-1);
+	Renderer.DrawLine(TopLeft, TopRight, m_Ctx.m_DepthHighlightColor);
+	Renderer.DrawLine(TopLeft, BottomLeft, m_Ctx.m_DepthHighlightColor);
+	Renderer.DrawLine(TopRight, BottomRight, m_Ctx.m_DepthShadeColor);
+	Renderer.DrawLine(BottomLeft, BottomRight, m_Ctx.m_DepthShadeColor);
+
+	//End Shadows
 	Renderer.EndLine();
 	Vector2f BtnTxtSize=Renderer.MeasureString("%s", m_Ctx.m_ButtonText.c_str());
 	Vector2f DeltaSize = m_Size - BtnTxtSize;

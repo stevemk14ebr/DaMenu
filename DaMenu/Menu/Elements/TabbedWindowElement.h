@@ -22,12 +22,16 @@ public:
 		float m_TabBarHeight;
 		float m_BorderWidth;
 		Color m_TabTextColor;
+		Color m_DepthHighlightColor;
+		Color m_DepthShadeColor;
 		Context()
 		{
 			m_DefaultTabFocusIndex = 0;
 			m_TabBarHeight = 25;
 			m_BorderWidth = 5;
 			m_TabTextColor = Color::Black();
+			m_DepthShadeColor = Color::Black();
+			m_DepthHighlightColor = Color::White();
 		}
 	};
 
@@ -121,6 +125,15 @@ void TabbedWindowElement::Draw(RenderInterface& Renderer)
 	Renderer.BeginLine();
 	Renderer.DrawFilledBox(m_Position, m_Size, m_Ctx.m_TitleFillColor);
 	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
+
+	Vector2f TopLeft = m_Position + Vector2f(1, 1);
+	Vector2f TopRight = Renderer.GetRectPoint(m_Position, m_Size, RenderInterface::RectPoint::TopRight) + Vector2f(-1, 1);
+	Vector2f BottomRight = Renderer.GetRectPoint(m_Position, m_Size, RenderInterface::RectPoint::BottomRight) + Vector2f(-1, -1);
+	Vector2f BottomLeft = Renderer.GetRectPoint(m_Position, m_Size, RenderInterface::RectPoint::BottomLeft) + Vector2f(1, -1);
+	Renderer.DrawLine(TopLeft, TopRight, m_Ctx.m_DepthHighlightColor);
+	Renderer.DrawLine(TopLeft, BottomLeft, m_Ctx.m_DepthHighlightColor);
+	Renderer.DrawLine(TopRight, BottomRight, m_Ctx.m_DepthShadeColor);
+	Renderer.DrawLine(BottomLeft, BottomRight, m_Ctx.m_DepthShadeColor);
 	Renderer.EndLine();
 
 	Vector2f WndNameSz = Renderer.MeasureString("%s", m_Ctx.m_WindowName.c_str());

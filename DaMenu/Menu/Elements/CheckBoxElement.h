@@ -23,10 +23,14 @@ public:
 		//Optional
 		bool m_DefaultState;
 		uint32_t m_BorderFillGap;
+		Color m_DepthHighlightColor;
+		Color m_DepthShadeColor;
 		Context()
 		{
 			m_DefaultState = false;
 			m_BorderFillGap = 2;
+			m_DepthShadeColor = Color::Black();
+			m_DepthHighlightColor = Color::White();
 		}
 	};
 	CheckBoxElement(const Context& Ctx);
@@ -54,9 +58,10 @@ void CheckBoxElement::Draw(RenderInterface& Renderer)
 		CheckColor = m_Ctx.m_FillColorMouseOver;
 
 	Renderer.BeginLine();
-	Renderer.DrawLineBox(m_Position, m_Size, Color::Black());
-	Renderer.DrawFilledBox(Vector2f(m_Position.x+m_Ctx.m_BorderFillGap,m_Position.y+ m_Ctx.m_BorderFillGap), 
-		Vector2f(m_Size.x - m_Ctx.m_BorderFillGap*2, m_Size.y - m_Ctx.m_BorderFillGap*2), CheckColor);
+
+	Renderer.DrawFilledBox( m_Position + Vector2f(m_Ctx.m_BorderFillGap, m_Ctx.m_BorderFillGap),
+		m_Size-Vector2f(m_Ctx.m_BorderFillGap * 2, m_Ctx.m_BorderFillGap * 2), CheckColor);
+	Renderer.DrawLineBox(m_Position, m_Size+Vector2f(1,1), Color::Black());
 	Renderer.EndLine();
 }
 
