@@ -50,7 +50,7 @@ void SetupMenu(ElementManager& GUIManager)
 	ComboCtx.m_FillColor = Color(.5f, .5f, .5f);
 	ComboCtx.m_FillColorMouseOver = Color(.7f, .7f, .7f);
 	ComboCtx.m_FillColorMouseDown = Color(.4f, .4f, .4f);
-	ComboCtx.m_Position = Vector2f(50, 150);
+	ComboCtx.m_Position = Vector2f(50, 130);
 	ComboCtx.m_Size = Vector2f(100, 20);
 	ComboBoxElement* ComboBox = new ComboBoxElement(ComboCtx);
 	ComboBox->AddComboButton("Option 1");
@@ -68,12 +68,13 @@ void SetupMenu(ElementManager& GUIManager)
 	ColorPickerElement::Context ColorPickerCtx;
 	ColorPickerCtx.m_FillColor = Color(0.0, .5f, .5f);
 	ColorPickerCtx.m_FillColorMouseOver = Color(.7f, .7f, .7f);
-	ColorPickerCtx.m_Position = Vector2f(100, 100);
+	ColorPickerCtx.m_Position = Vector2f(50, 0);
 	ColorPickerCtx.m_Size = Vector2f(100, 20);
 	ColorPickerCtx.m_ColorSelectorInfo.m_FillColor= Color(.7f, .7f, .7f);
 	ColorPickerCtx.m_ColorSelectorInfo.m_TitleFillColor = Color(.5f, .5f, .5f);
 	ColorPickerCtx.m_ColorSelectorInfo.m_Size = Vector2f(200, 200);
 	ColorPickerElement* ColorPicker = new ColorPickerElement(ColorPickerCtx);
+	ColorPickerElement* ColorPicker2 = new ColorPickerElement(ColorPickerCtx);
 
 	TabbedWindowElement::Context TabWinCtx;
 	TabWinCtx.m_TabFillColor = Color(.7f, .7f, .7f);
@@ -91,8 +92,9 @@ void SetupMenu(ElementManager& GUIManager)
 	Tab1Page->AddSubElement(Button2);
 	Tab1Page->AddSubElement(ComboBox);
 	Tab1Page->AddSubElement(Label);
+	Tab1Page->AddSubElement(ColorPicker);
 
-	Tab2Page->AddSubElement(ColorPicker);
+	Tab2Page->AddSubElement(ColorPicker2);
 
 	GUIManager.AddElement(TabbedWindow);
 	GUIManager.AddElement(Window);

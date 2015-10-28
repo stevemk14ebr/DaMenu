@@ -69,6 +69,8 @@ protected:
 	virtual void OnKeyDown(const KeyboardMessage& Msg);
 	virtual void OnKeyUp(const KeyboardMessage& Msg);
 
+	virtual void OnZOrderChanged();
+
 	virtual bool IsPointInControl(const Vector2f& Point);
 	virtual bool IsPointInMouseDownZone(const Vector2f& Point);
 
@@ -177,6 +179,11 @@ void MenuElement::OnKeyDown(const KeyboardMessage& Msg)
 void MenuElement::OnKeyUp(const KeyboardMessage& Msg)
 {
 	m_eKeyUp.Invoke(Msg);
+}
+
+void MenuElement::OnZOrderChanged()
+{
+	m_eZOrderChanged.Invoke(GetId());
 }
 
 ePositionChanged& MenuElement::EventPositionChanged()

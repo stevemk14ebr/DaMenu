@@ -156,6 +156,7 @@ void ColorPickerElement::OnMouseDown(const MouseMessage& Msg)
 	{
 		m_IsMouseDown = true;
 		m_IsColorSelectorOpen = true;
+		MenuElement::OnZOrderChanged();
 	}
 	if (m_IsColorSelectorOpen && m_ColorSelectorWindow->IsPointInMouseDownZone(Msg.GetLocation()))
 		m_ColorSelectorWindow->OnMouseDown(Msg);

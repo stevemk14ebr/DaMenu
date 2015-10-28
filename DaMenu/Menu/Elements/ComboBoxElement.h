@@ -118,7 +118,7 @@ void ComboBoxElement::OnMouseDown(const MouseMessage& Msg)
 	if(Msg.GetButton() == MouseMessage::MouseButton::Left)
 		m_IsDroppedDown = !m_IsDroppedDown;
 	
-	m_eZOrderChanged.Invoke(GetId());
+	MenuElement::OnZOrderChanged();
 	for (ButtonElement* Button : m_ComboButtons)
 	{
 		if (Button->GetId() == m_IdClickedButton)
