@@ -28,4 +28,4 @@
 
 * Checkbox
 
-![alt tag](http://i.imgur.com/ho2H8mA.png)
+![alt tag](http://i.imgur.com/xwPnt7U.gif)
