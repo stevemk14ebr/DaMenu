@@ -28,4 +28,9 @@
 
 * Checkbox
 
+* Color Picker
+
+  * Movable Color Selection Window
+
+
 ![alt tag](http://i.imgur.com/xwPnt7U.gif)
