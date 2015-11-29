@@ -3,6 +3,8 @@
 class TabbedWindowElement : public MenuElement
 {
 public:
+	typedef EventDispatcher<void(const uint32_t)> eClosePressed;
+
 	//Returns tab ID
 	typedef EventDispatcher<void(const uint32_t)> eTabPressed;
 	virtual void Draw(RenderInterface& Renderer) override;
@@ -53,6 +55,7 @@ protected:
 	virtual bool PointInClient(const Vector2f& Point);
 	virtual bool IsCursorInElement() override;
 	virtual void OnTabPressed(const MouseMessage& Msg, const uint32_t TabIndex);
+	virtual void OnClosePressed(const MouseMessage& Msg);
 	void ForwardMouseEnterLeave(MenuElement* Element, const MouseMessage &Msg);
 private:
 	Context m_Ctx;
@@ -63,6 +66,7 @@ private:
 	Vector2f m_DragOffsetFromPosition;
 	bool m_IsMouseDown;
 	eTabPressed m_eTabPressed;
+	eClosePressed m_eClosePressed;
 };
 
 TabbedWindowElement::TabbedWindowElement(const Context& Ctx):
@@ -71,6 +75,7 @@ TabbedWindowElement::TabbedWindowElement(const Context& Ctx):
 	m_Ctx = Ctx;
 	m_TabInFocus = m_Ctx.m_DefaultTabFocusIndex;
 	m_IsMouseDown = false;
+
 }
 
 TabbedWindowElement::~TabbedWindowElement()
@@ -222,6 +227,12 @@ void TabbedWindowElement::OnMouseUp(const MouseMessage& Msg)
 	{
 		Button->OnMouseUp(Msg);
 	}
+}
+
+void TabbedWindowElement::OnClosePressed(const MouseMessage& Msg)
+{
+	m_eClosePressed.Invoke(GetId());
+	printf("Closed\n");
 }
 
 void TabbedWindowElement::ForwardMouseEnterLeave(MenuElement* Element, const MouseMessage &Msg)
