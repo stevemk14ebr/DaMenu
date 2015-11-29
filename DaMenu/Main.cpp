@@ -1,6 +1,5 @@
 // DaMenu.cpp : Defines the entry point for the console application.
 //
-
 #define NOMINMAX
 #include <windows.h>
 #include "DaMenu.h"

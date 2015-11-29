@@ -28,6 +28,8 @@ ElementManager::~ElementManager()
 		delete Element;
 	}
 	m_Elements.clear();
+	delete m_InputManager;
+	delete m_Renderer;
 }
 
 ElementManager::ElementManager(InputManagerInterface* InputManager,RenderInterface* Renderer)
